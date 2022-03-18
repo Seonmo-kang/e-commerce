@@ -3,3 +3,9 @@ settings.py
 
 #Pipfile
 Pipfile
+
+#asset static files
+assets/
+
+#migrations files
+migrations/
