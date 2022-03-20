@@ -1,0 +1,11 @@
+<h3>This is Register page.</h3>
+
+<form method="POST" action="">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <input type="submit" name="Create User"/>
+</form>
+{% if ok %}
+{{ ok.as_p }}
+{% endif %}
