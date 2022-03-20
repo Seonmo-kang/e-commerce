@@ -1,10 +1,11 @@
-from distutils.debug import DEBUG
-from secrets import choice
-from signal import raise_signal
-from tabnanny import verbose
+from django.conf import settings
+
 from django.db import models
+from django.db.models.deletion import CASCADE
+from django.utils.translation import gettext_lazy as _
+from django.utils import timezone
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
-from django.forms import MultipleChoiceField
+
 
 from django.core.validators import RegexValidator
 
@@ -14,7 +15,7 @@ from bases.models import TimeStampBase
 
 class UserManager(BaseUserManager):
 
-    def create_user(self, email, password):
+    def create_user(self, email, password, **extra_fields):
         
         if not email:
             raise ValueError('must have user email.')
@@ -27,27 +28,58 @@ class UserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, email, password):
+    def create_superuser(self, email, password, **extra_fields):
         
-        user = self.create_user(
+        extra_fields.setdefault("is_staff",True)
+        extra_fields.setdefault("is_superuser",True)
+        extra_fields.setdefault("is_active",True)
+        if extra_fields.get("is_staff") is not True:
+            raise ValueError("Superuser must have is_staff=True.")
+        if extra_fields.get("is_superuser") is not True:
+            raise ValueError("Superuser must have is_superuser=True.")
+        if extra_fields.get("is_active") is not True:
+            raise ValueError("Superuser must have is_active=True.")
+        return self.create_user(
             email = self.normalize_email(email),
-            password= password
-        )
-        user.is_admin = True
-        user.is_superuser = True
-        user.save(using=self._db)
-        return user
+            password= password,
+            **extra_fields)
 
 class User(AbstractBaseUser,TimeStampBase):
-    email = models.EmailField(verbose_name='email address',unique=True, max_length=255)
+    """
+        email
+        password
+    """
+    objects = UserManager()
 
+    email = models.EmailField(verbose_name=_('email address'),unique=True, max_length=255)
+    is_staff = models.BooleanField(verbose_name='Is staff',default=False)
+    is_active = models.BooleanField(verbose_name='Is active',default=True)
+    is_superuser = models.BooleanField(verbose_name='Is superuser',default=False)
+    # date_joined = models.DateTimeField(default=timezone.now)
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
 
+    date_joined = None
+    last_login = None
+    
     def __str__(self):
-        return self.email
+        return str(self.email)
+    
+    # @property
+    # def is_superuser(self):
+    #     return self.is_superuser
+    # @property
+    # def is_staff(self):
+    #     return self.is_staff
 
+    def has_perm(self, perm, obj=None):
+        # return self.is_staff
+        return True
+    def has_module_perms(self, app_label):
+        # return self.is_staff
+        return True
 
+# class ProfileManager(models.Manager):
 
 class Profile(TimeStampBase):
     """
@@ -73,61 +105,12 @@ class Profile(TimeStampBase):
     city = models.CharField(max_length=50,null=True,blank=True)
 
     STATE_CHOICES=(
-    ('AL','Alabama'),
-    ('AK','Alaska'),
-    ('AZ','Arizona'),
-    ('AR','Arkansas'),
-    ('CA','California'),
-    ('CO','Colorado'),
-    ('CT','Connecticut'),
-    ('DE','Delaware'),
-    ('FL','Florida'),
-    ('GA','Georgia'),
-    ('HI','Hawaii'),
-    ('ID','Idaho'),
-    ('IL','Illinois'),
-    ('IN','Indiana'),
-    ('IA','Iowa'),
-    ('KS','Kansas'),
-    ('KY','Kentucky'),
-    ('LA','Louisiana'),
-    ('ME','Maine'),
-    ('MD','Maryland'),
-    ('MA','Massachusetts'),
-    ('MI','Michigan'),
-    ('MN','Minnesota'),
-    ('MS','Mississippi'),
-    ('MO','Missouri'),
-    ('MT','Montana'),
-    ('NE','Nebraska'),
-    ('NA','Nevada'),
-    ('NH','New Hampshire'),
-    ('NJ','New Jersey'),
-    ('NM','New Mexico'),
-    ('NY','New York'),
-    ('NC','North Carolina'),
-    ('ND','North Dakota'),
-    ('OH','Ohio'),
-    ('OK','Oklahoma'),
-    ('OR','Oregon'),
-    ('PA','Pennsylvania'),
-    ('RI','Rhode Island'),
-    ('SC','South Carolina'),
-    ('SD','South Dakota'),
-    ('TN','Tennessee'),
-    ('TX','Texas'),
-    ('UT','Utah'),
-    ('VT','Vermont'),
-    ('VA','Virginia'),
-    ('WA','Washington'),
-    ('WV','West Virginia'),
-    ('WI','Wisconsin'),
-    ('WY','Wyoming'),
+    ('AL','Alabama'),('AK','Alaska'),('AZ','Arizona'),('AR','Arkansas'),('CA','California'),('CO','Colorado'),('CT','Connecticut'),('DE','Delaware'),('FL','Florida'),('GA','Georgia'),('HI','Hawaii'),('ID','Idaho'),('IL','Illinois'),('IN','Indiana'),('IA','Iowa'),('KS','Kansas'),('KY','Kentucky'),('LA','Louisiana'),('ME','Maine'),('MD','Maryland'),('MA','Massachusetts'),('MI','Michigan'),('MN','Minnesota'),('MS','Mississippi'),('MO','Missouri'),('MT','Montana'),('NE','Nebraska'),('NA','Nevada'),('NH','New Hampshire'),('NJ','New Jersey'),('NM','New Mexico'),('NY','New York'),('NC','North Carolina'),('ND','North Dakota'),('OH','Ohio'),('OK','Oklahoma'),('OR','Oregon'),('PA','Pennsylvania'),('RI','Rhode Island'),('SC','South Carolina'),('SD','South Dakota'),('TN','Tennessee'),('TX','Texas'),('UT','Utah'),('VT','Vermont'),('VA','Virginia'),('WA','Washington'),('WV','West Virginia'),('WI','Wisconsin'),('WY','Wyoming')
     )
     state = models.CharField(max_length=3,choices=STATE_CHOICES,blank=True,null=True)
 
-    zipcodeValidator = RegexValidator(r"^([0-9]{5}(?:-[0-9]{4})?$)","Error: Must be Digit 5 E.g. 00000 or 00000-0000")
-    zipcode = models.CharField(max_length=12,validators=zipcodeValidator,blank=True,null=True)
+    zipcodeValidator = RegexValidator(r"^([0-9]{5}(?:-[0-9]{4})?$)",r"Error: Must be Digit 5 E.g. 00000 or 00000-0000")
+    zipcode = models.CharField(max_length=12,validators=[zipcodeValidator],blank=True,null=True)
     CREDIT_METHOD_CHOICES =(
         ('V','Visa'),
         ('M','Mastercard'),
@@ -135,5 +118,10 @@ class Profile(TimeStampBase):
         ('D','Discover'),
     )
     credit_method = models.CharField(max_length=1, choices=CREDIT_METHOD_CHOICES, blank=True, null=True)
-    credit_account = models.CharField(max_length=15, blank=True, null=True)
-    user = models.ForeignKey(User, on_delete=CASCADE,related_name="profile",null=True)
+
+    credit_accountValidator = RegexValidator(r"^([0-9]{15})$",r"Error: credit account number must be Digit 15 numbers.")
+    credit_account = models.CharField(max_length=15, validators=[credit_accountValidator], blank=True, null=True)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=CASCADE,related_name="profile",null=True)
+
+    def __str__(self):
+        return str(self.user)
