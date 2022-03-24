@@ -1,0 +1,22 @@
+{% extends "shop/base.html" %}
+
+{% block itemDetail %}
+        {% if details %}
+        <div class="d-flex flex-column">
+            <!-- <p class="p-2">id : {{details.id}}</p> -->
+            <p class="p-2">name : {{details.name}}</p>
+            <p class="p-2">description: {{details.description}}</p>
+            <p class="p-2">sell_price : {{details.sell_price}}</p>
+            <p class="p-2">code : {{details.code}}</p>
+            <p class="p-2">model : {{details.model}}</p>
+            <p class="p-2">color :{{details.color}}</p>
+            <p class="p-2">category : {{details.category}}</p>
+            <p class="p-2">subCategory: {{details.subCategory}}</p>
+            <p class="p-2">subCategory: {{details.made_in}}</p>
+            <p class="p-2">brand: {{details.brand}}</p>
+            <p class="p-2">weight: {{details.weight}}</p>
+        </div>
+        {% else %}
+            <p>There is no production.</p>
+        {% endif %}
+{% endblock %}
