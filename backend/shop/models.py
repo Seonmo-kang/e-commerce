@@ -1,4 +1,5 @@
 from email.mime import image
+from unicodedata import category
 from django.db import models
 from django.conf import settings
 from django.forms import SlugField
@@ -36,8 +37,28 @@ class Brand(TimeStampBase):
     def __str__(self):
         return self.name
 
+# Carasel Model
+class Carasel(TimeStampBase):
+    alt = models.CharField('Alt name',max_length=50,default="Alt")
+    image = models.ImageField(upload_to = 'carasel/') # /static/images/carasel
+    def __str__(self):
+        return self.alt
+
 # Item Manager model
 class ItemManager(models.Manager):
+    #Return Item List
+    # def itemlist(self,**kwargs):
+    #     for key,value in kwargs.items():
+    #         if(value=='all'):
+
+        
+    #     return self.filter(isAvailable=True,
+    #                         category__name=kwargs['category'],
+    #                         subcategory__name = kwargs['subcategory'],
+    #                         brand__name = kwargs['brand'])
+    # Return Item Detail
+    def detail(self,**kwargs):
+        return self.get(isAvailable=True,**kwargs)
     # Objects have isAvailable=True
     def isAvailable(self, **kwargs):
         return self.filter(isAvailable=True,**kwargs)
@@ -48,13 +69,6 @@ class ItemManager(models.Manager):
 
     # def get_queryset(self):
     #     return super(ItemManager,self).get_queryset().filter(isAvailable=True)
-
-# Carasel Model
-class Carasel(TimeStampBase):
-    alt = models.CharField('Alt name',max_length=50,default="Alt")
-    image = models.ImageField(upload_to = 'carasel/') # /static/images/carasel
-    def __str__(self):
-        return self.alt
 
 # Item model
 class Item(TimeStampBase):
@@ -100,11 +114,12 @@ class Item(TimeStampBase):
     #FK
     brand = models.ForeignKey(Brand,on_delete=models.PROTECT,related_name='item') #제품 브랜드
     category = models.ForeignKey(Category,on_delete=models.CASCADE,related_name='item') #제품 카테고리
-    subCategory = models.ForeignKey(SubCategory,on_delete=models.CASCADE,related_name='item') #제품 카테고리
+    subcategory = models.ForeignKey(SubCategory,on_delete=models.CASCADE,related_name='item') #제품 카테고리
     
     # Columns - need to be created
-    # 이미지
-    # created_by_who
+    # 이미지는 따로 만들고 만든 이미지 모델에 item을 FK로 추가한다.
+    # created_by_who : Auth 처리가 가능할때 만들도록한다.
+    # Count 횟수 : Count 횟수 저장한다.
 
     objects = ItemManager()
 
