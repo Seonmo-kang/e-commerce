@@ -82,16 +82,15 @@ class Item(TimeStampBase):
         model
         color
         isAvailable
-        qty
-        category
-        subCategory
+        qty Fk
+        category Fk
+        subCategory Fk
     --need to be created
         images
     """
     id = models.BigAutoField('Item ID',primary_key=True)
     name = models.CharField('Item Name',max_length=100)
     description = models.CharField('Item Description',max_length=500,blank=True)
-    
     sell_price = models.BigIntegerField('Selling Price',default=1) #판매가
     unit_price = models.BigIntegerField('Unit Price',default=1) #단가
     code = models.CharField('Item Code',max_length=30,unique=True)
