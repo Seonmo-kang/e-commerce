@@ -17,3 +17,6 @@ static/
 *.cpython-38.pyc
 settings.cpython-38.pyc
 __pycache__/
+
+#env file
+.env
