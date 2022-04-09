@@ -32,6 +32,7 @@ class ShopView(generic.ListView):
     # Using GET parameter, create dynamic filters.
     def get_queryset(self):
         queryset = Item.objects.isAvailable()
+        return queryset
         #filter
         # filters={}
         # print(self.request.GET) # Value inspection
@@ -49,7 +50,7 @@ class ShopView(generic.ListView):
         # r_string = render_to_string()
         # {queryset.filter(**filters)}
         # return queryset.filter(**filters)
-        return queryset
+        
 
 def filter_list(request):
     queryset = Item.objects.isAvailable()
