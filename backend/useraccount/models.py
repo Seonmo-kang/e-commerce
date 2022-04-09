@@ -55,7 +55,6 @@ class User(AbstractBaseUser,TimeStampBase):
     is_staff = models.BooleanField(verbose_name='Is staff',default=False)
     is_active = models.BooleanField(verbose_name='Is active',default=True)
     is_superuser = models.BooleanField(verbose_name='Is superuser',default=False)
-    # date_joined = models.DateTimeField(default=timezone.now)
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
 
