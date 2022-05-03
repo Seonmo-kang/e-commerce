@@ -143,7 +143,7 @@
                     </a>
                 </div>
                 <div class="p-2 bd-highlight">
-                    <a href="/account/mypage" style="text-decoration-line: none;">
+                    <a href="{% url 'mypage' %}" style="text-decoration-line: none;">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                             fill="currentColor" class="bi bi-file-person" viewBox="0 0 16 16">
                             <path
@@ -220,6 +220,14 @@
     <!-- myPage.html-->
         {% block myPage %}{% endblock %}
     <!-- End myPage.html-->
+
+    <!-- socialaccount/login.html-->
+        {% block socialLogin %}{% endblock %}
+    <!-- End socialaccount/login.html-->
+
+    <!-- socialaccount/signup.html -->
+        {% block socialSignup %}{% endblock %}
+    <!-- End socialaccount/signup.html -->
     <footer>
         <div class="d-flex flex-column border bg-light mt-5">
             <div class="flex-row justify-content-start p-2 border">

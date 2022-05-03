@@ -11,7 +11,22 @@ from django.core.validators import RegexValidator
 
 from bases.models import TimeStampBase
 
+GENDER_CHOICES = (
+        (0,'female'),
+        (1,'male'),
+        (2,'Opt out')
+    )
 
+STATE_CHOICES=(
+    ('AL','Alabama'),('AK','Alaska'),('AZ','Arizona'),('AR','Arkansas'),('CA','California'),('CO','Colorado'),('CT','Connecticut'),('DE','Delaware'),('FL','Florida'),('GA','Georgia'),('HI','Hawaii'),('ID','Idaho'),('IL','Illinois'),('IN','Indiana'),('IA','Iowa'),('KS','Kansas'),('KY','Kentucky'),('LA','Louisiana'),('ME','Maine'),('MD','Maryland'),('MA','Massachusetts'),('MI','Michigan'),('MN','Minnesota'),('MS','Mississippi'),('MO','Missouri'),('MT','Montana'),('NE','Nebraska'),('NA','Nevada'),('NH','New Hampshire'),('NJ','New Jersey'),('NM','New Mexico'),('NY','New York'),('NC','North Carolina'),('ND','North Dakota'),('OH','Ohio'),('OK','Oklahoma'),('OR','Oregon'),('PA','Pennsylvania'),('RI','Rhode Island'),('SC','South Carolina'),('SD','South Dakota'),('TN','Tennessee'),('TX','Texas'),('UT','Utah'),('VT','Vermont'),('VA','Virginia'),('WA','Washington'),('WV','West Virginia'),('WI','Wisconsin'),('WY','Wyoming')
+    )
+
+CREDIT_METHOD_CHOICES =(
+        ('V','Visa'),
+        ('M','Mastercard'),
+        ('A','American Express'),
+        ('D','Discover'),
+    )
 
 class UserManager(BaseUserManager):
 
@@ -94,28 +109,17 @@ class Profile(TimeStampBase):
     """
     first_name = models.CharField(max_length=50, null=True, blank=True)
     last_name = models.CharField(max_length=50, null=True, blank=True)
-    GENDER_CHOICES = (
-        (0,'female'),
-        (1,'male'),
-        (2,'Opt out')
-    )
+
     gender = models.IntegerField(choices=GENDER_CHOICES,null=True,blank=True)
     address = models.CharField(max_length=255,null=True,blank=True)
     city = models.CharField(max_length=50,null=True,blank=True)
 
-    STATE_CHOICES=(
-    ('AL','Alabama'),('AK','Alaska'),('AZ','Arizona'),('AR','Arkansas'),('CA','California'),('CO','Colorado'),('CT','Connecticut'),('DE','Delaware'),('FL','Florida'),('GA','Georgia'),('HI','Hawaii'),('ID','Idaho'),('IL','Illinois'),('IN','Indiana'),('IA','Iowa'),('KS','Kansas'),('KY','Kentucky'),('LA','Louisiana'),('ME','Maine'),('MD','Maryland'),('MA','Massachusetts'),('MI','Michigan'),('MN','Minnesota'),('MS','Mississippi'),('MO','Missouri'),('MT','Montana'),('NE','Nebraska'),('NA','Nevada'),('NH','New Hampshire'),('NJ','New Jersey'),('NM','New Mexico'),('NY','New York'),('NC','North Carolina'),('ND','North Dakota'),('OH','Ohio'),('OK','Oklahoma'),('OR','Oregon'),('PA','Pennsylvania'),('RI','Rhode Island'),('SC','South Carolina'),('SD','South Dakota'),('TN','Tennessee'),('TX','Texas'),('UT','Utah'),('VT','Vermont'),('VA','Virginia'),('WA','Washington'),('WV','West Virginia'),('WI','Wisconsin'),('WY','Wyoming')
-    )
+    
     state = models.CharField(max_length=3,choices=STATE_CHOICES,blank=True,null=True)
 
     zipcodeValidator = RegexValidator(r"^([0-9]{5}(?:-[0-9]{4})?$)",r"Error: Must be Digit 5 E.g. 00000 or 00000-0000")
     zipcode = models.CharField(max_length=12,validators=[zipcodeValidator],blank=True,null=True)
-    CREDIT_METHOD_CHOICES =(
-        ('V','Visa'),
-        ('M','Mastercard'),
-        ('A','American Express'),
-        ('D','Discover'),
-    )
+
     credit_method = models.CharField(max_length=1, choices=CREDIT_METHOD_CHOICES, blank=True, null=True)
 
     credit_accountValidator = RegexValidator(r"^([0-9]{15})$",r"Error: credit account number must be Digit 15 numbers.")

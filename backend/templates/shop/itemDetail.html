@@ -3,11 +3,10 @@
 {% block itemDetail %}
         {% if details %}
         <div class="productDetail container-fluid" style="width: 1440px;">
-            <div>
+            <div class="m-3">
             <h3 class="bold">Prodect Detail</h3>
             </div>
             <!-- Product section-->
-            <section>
                 <!-- px-4 px-lg-5 my-5 -->
                 <div class="container-fluid px-4 my-5">
                     <div class="row gx-4 gx-lg-5">
@@ -34,15 +33,18 @@
                         </div>
                     </div>
                 </div>
+                <div class="d-flex flex-column">
+                    <p class="p-2 align-self-center">description: {{details.description}}</p>
+                    <p class="p-2 align-self-center">code : {{details.code}}</p>
+                    <p class="p-2 align-self-center">color :{{details.color}}</p>
+                    <p class="p-2 align-self-center">category : {{details.category}}</p>
+                    <p class="p-2 align-self-center">subCategory: {{details.subCategory}}</p>
+                    <p class="p-2 align-self-center">brand: {{details.brand}}</p>
+                    <p class="p-2 align-self-center">made in: {{details.made_in}}</p>
+                    <p class="p-2 align-self-center">weight: {{details.weight}}</p>
+                </div>  
             </section>
-            <p class="p-2">description: {{details.description}}</p>
-            <p class="p-2">code : {{details.code}}</p>
-            <p class="p-2">color :{{details.color}}</p>
-            <p class="p-2">category : {{details.category}}</p>
-            <p class="p-2">subCategory: {{details.subCategory}}</p>
-            <p class="p-2">brand: {{details.brand}}</p>
-            <p class="p-2">made in: {{details.made_in}}</p>
-            <p class="p-2">weight: {{details.weight}}</p>
+
         <!-- Related items section-->
         <section class="py-5 bg-light">
             <div class="container px-4 px-lg-5 mt-5">

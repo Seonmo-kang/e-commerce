@@ -3,11 +3,63 @@ from django import forms
 from django.contrib.auth.forms import ReadOnlyPasswordHashField,AuthenticationForm
 from django.contrib.auth import authenticate, get_user_model
 from django.utils.translation import gettext_lazy as _
+from pkg_resources import require
+
+from allauth.socialaccount.forms import SignupForm
 
 from .models import Profile, UserManager
+from .models import STATE_CHOICES,GENDER_CHOICES,CREDIT_METHOD_CHOICES
 
 #For using customized User model, we need a funtion : get_user_model
 User = get_user_model()
+
+class MyCustomSocialSignupForm(SignupForm):
+    email = forms.EmailField(
+        label=_('Email'),
+        required=True,
+        widget=forms.EmailInput(
+            attrs={
+                'class': 'form-control',
+                'placeholder' : _('Email address'),
+                'required': 'True'
+            }
+        )
+    )
+    firstName = forms.CharField(
+        label=_('FirstName'),
+        required= True,
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control',
+                'placeholder' : _('Fisrt Name'),
+                'required': 'True'
+            }
+        )
+    )
+    lastName = forms.CharField(
+        label=_('LastName'),
+        required= True,
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control',
+                'placeholder' : _('Last Name'),
+                'required': 'True'
+            }
+        )
+    )
+    def save(self, request):
+
+        # Ensure you call the parent class's save.
+        # .save() returns a User object.
+        user = super(MyCustomSocialSignupForm, self).save(request)
+
+        # Add your own processing here.
+        firstName = self.cleaned_data['firstName']
+        lastName = self.cleaned_data['lastName']
+        p = Profile(user=user,first_name = firstName, last_name = lastName)
+        p.save()
+        # You must return the original result.
+        return user
 
 class UserRegisterationForm(forms.ModelForm):
     # User Registeration Form
