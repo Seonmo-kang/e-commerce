@@ -4,17 +4,30 @@ from django.template.loader import render_to_string
 from django.views import generic 
 
 from .models import Brand, Carasel, Category, Item, SubCategory
+from order.models import Order, OrderItem
 from django.conf import settings
+
+
+
 
 class ShopView(generic.ListView):
     model = Item
     template_name = "shop/shop.html"
     context_object_name = 'item_list'
     
+    # def get(self,request, *args, **kwargs):
+    #     if request.user.is_authenticated:
+            
+    #     else:
 
     def get_context_data(self, **kwargs):
         context = super(ShopView,self).get_context_data(**kwargs)
-
+        # Count cart items function is moved to context_processors.py 
+        #   b/c this is not working on extended template.
+        # if self.request.user.is_authenticated:
+        #     user_order = Order.objects.isCart(user=self.request.user)
+        #     count_items = OrderItem.objects.count_carted_items(order=user_order)
+        #     context['carted_item'] = count_items #ordered_items
         category = Category.objects.all()
         subcategory = SubCategory.objects.all()
         brand = Brand.objects.all()
@@ -62,10 +75,10 @@ def filter_list(request):
         if key in ['category[]','subcategory[]','brand[]']:
             print(len(request.GET.getlist(key))) # Value inspection
             if(len(request.GET.getlist(key))>1):
-                print("key is {0}",key[0:-2])
+                print("key is ",key[0:-2])
                 filters[key[0:-2]+"__name__in"]=request.GET.getlist(key)
             else:
-                print("key is {0}",key[0:-2])
+                print("key is ",key[0:-2])
                 filters[key[0:-2]+"__name"]=request.GET[key]
     print(filters) # Value inspection
     
@@ -73,7 +86,7 @@ def filter_list(request):
     print("filtered list :",filtered_queryset)
 
     filtered_list = render_to_string('shop/filtered_list.html',{'item_list': filtered_queryset})
-    print("r_string is ",filtered_list)
+    # print("r_string is ",filtered_list)
     return JsonResponse({'data':filtered_list})
 
 
@@ -84,5 +97,4 @@ class ItemDetailView(generic.DetailView):
     
     def get_object(self,queryset=None):
         return Item.objects.detail(id=self.kwargs['pk'])
-
 

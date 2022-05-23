@@ -15,9 +15,9 @@ from django.views.generic import FormView,ListView
 
 from allauth.socialaccount.models import SocialAccount
 from allauth.socialaccount.providers.kakao import views as kakao_view
-
+from allauth.account.views import LoginView as AccountLoginView
 from .models import Profile
-from .forms import LoginForm,UserRegisterationForm
+from .forms import LoginForm,UserRegisterationForm,MyCustomLoginForm
 
 User = get_user_model()
 
@@ -74,24 +74,11 @@ def mypage(request):
     except Profile.DoesNotExist:
         profile=None
     if profile is None:
-        profile ='There is no profile on this user'
+        profile ='There is no  profile on this user'
     context={
         'profile':profile
     }
     return render(request, 'account/myPage.html',context)
-        
-class LoginView(FormView):
-    form_class = LoginForm
-    template_name = 'account/login.html'
-    success_url = '/'
-
-    def form_valid(self, form):
-        """
-        The user has provided valid credentials (this was checked in AuthenticationForm.is_valid()). So now we
-        can log him in.
-        """
-        login(self.request, form.get_user())
-        return HttpResponseRedirect(self.get_success_url())
 
 class KakaoSignView(View):
     """

@@ -6,12 +6,40 @@ from django.utils.translation import gettext_lazy as _
 from pkg_resources import require
 
 from allauth.socialaccount.forms import SignupForm
+from allauth.account.forms import LoginForm as AccountLoginForm
 
 from .models import Profile, UserManager
 from .models import STATE_CHOICES,GENDER_CHOICES,CREDIT_METHOD_CHOICES
 
 #For using customized User model, we need a funtion : get_user_model
 User = get_user_model()
+
+class MyCustomLoginForm(AccountLoginForm):
+    email = forms.EmailField(
+        label=_("Email"),
+        required=True,
+        widget=forms.EmailInput(
+            attrs={
+                'class': 'form-control',
+                'placeholder' : _('Email address'),
+                'required': 'True'
+            }
+        )
+    )
+    password = forms.CharField(
+        label=_('Password'),
+        widget= forms.PasswordInput(
+            attrs={
+                'class': 'form-control',
+                'placeholder': _('Password'),
+                'required': 'True'
+            }
+        )
+    )
+    def login(self, *args, **kwargs):
+        # Add your own processing here.
+        # You must return the original result.
+        return super(MyCustomLoginForm, self).login(*args, **kwargs)
 
 class MyCustomSocialSignupForm(SignupForm):
     email = forms.EmailField(
@@ -54,9 +82,9 @@ class MyCustomSocialSignupForm(SignupForm):
         user = super(MyCustomSocialSignupForm, self).save(request)
 
         # Add your own processing here.
-        firstName = self.cleaned_data['firstName']
-        lastName = self.cleaned_data['lastName']
-        p = Profile(user=user,first_name = firstName, last_name = lastName)
+        first_name = self.cleaned_data['firstName']
+        last_name = self.cleaned_data['lastName']
+        p = Profile(user=user,first_name = first_name, last_name = last_name)
         p.save()
         # You must return the original result.
         return user

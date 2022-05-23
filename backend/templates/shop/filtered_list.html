@@ -1,6 +1,6 @@
 {% if item_list %}
     {% for item in item_list %}
-    <a class="" href="/shop/item/{{item.id}}" style="text-decoration-line: none;">
+    <a class="" href="{% url 'ItemDetailPage' item.id %}" style="text-decoration-line: none;">
         <div class="card border-light ms-3 pe-auto" style="max-width: 18rem;">
             <div class="card-body text-black">
                 <h5 class="card-title">Picture of product</h5>

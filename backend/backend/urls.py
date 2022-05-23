@@ -27,7 +27,7 @@ urlpatterns = [
     path('accounts/',include('useraccount.urls')),
     # allauth
     path('accounts/',include('allauth.urls')),
-
+    path('order/',include('order.urls')),
     
     
 ]+ static(settings.MEDIA_URL, document_root= settings.MEDIA_ROOT) +static(settings.STATIC_URL, document_root= settings.STATIC_ROOT)

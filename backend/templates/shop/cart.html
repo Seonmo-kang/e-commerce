@@ -1,0 +1,21 @@
+{% extends "shop/base.html" %}
+{% load static %}
+
+{% block cart %}
+    <div class="container">
+        <p>Cart!</p>
+    {% if item_list %}
+        {%for item in item_list %}
+            <div class="my-2 col-6 border-bottom align-items-center">
+                <button type="button" class="remove_item btn-close float-end" id="remove_item-{{forloop.counter}}" data-item="{{item.item.id}}" aria-label="Close"></button>
+                <p> item name : {{item.item}} </p>
+                <p> item quantity : {{item.quantity}} </p>
+            </div>
+        {% empty %}
+            <p>It's empty</p>
+        {% endfor %}
+    {% else %}
+        <p> There are no item in the cart!</p>
+    {% endif %}
+    </div>
+{% endblock %}
