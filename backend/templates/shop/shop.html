@@ -6,24 +6,32 @@
 {% block carousel %}
 <style>
     /* carousel item size */
-    .carousel-item img {
-        width: 100%;
-        height: 700px;
+    #mainBanner{
+        margin:0px auto;
+        width:100%;
+        max-width: 1500px;
+        height:40vh;
+        overflow: hidden;
+    }
+    .carousel-item img{
+        width:100%;
+        height:100%;
+        object-fit:cover;
     }
 </style>
 <!-- Carousel -->
-<div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+<div id="mainBanner" class="carousel slide" data-bs-ride="carousel">
     <div class="carousel-indicators">
         {% for image in images %}
-        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="{{ forloop.counter0}}}"
+        <button type="button" data-bs-target="#mainBanner" data-bs-slide-to="{{ forloop.counter0}}}"
             class="{% if forloop.first%}active{% endif %}" {% if forloop.first %} aria-current="true" {% endif %}
             aria-label="Slide {{ forloop.counter}}"></button>
         {% endfor %}
-        <!-- <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"
+        <!-- <button type="button" data-bs-target="#mainBanner" data-bs-slide-to="0" class="active"
             aria-current="true" aria-label="Slide 1"></button>
-        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
+        <button type="button" data-bs-target="#mainBanner" data-bs-slide-to="1"
             aria-label="Slide 2"></button>
-        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
+        <button type="button" data-bs-target="#mainBanner" data-bs-slide-to="2"
             aria-label="Slide 3"></button> -->
     </div>
     <div class="carousel-inner">
@@ -42,12 +50,12 @@
             <img src="..." class="d-block w-100" alt="...">
         </div> -->
     </div>
-    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
+    <button class="carousel-control-prev" type="button" data-bs-target="#mainBanner"
         data-bs-slide="prev">
         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
         <span class="visually-hidden">Previous</span>
     </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
+    <button class="carousel-control-next" type="button" data-bs-target="#mainBanner"
         data-bs-slide="next">
         <span class="carousel-control-next-icon" aria-hidden="true"></span>
         <span class="visually-hidden">Next</span>
@@ -72,9 +80,9 @@
 </div>
 
 <!-- filtering & item list-->
-<div class="d-flex flex-row">
+<div class="d-flex flex-row mx-auto">
 
-    <div class="d-flex flex-column">
+    <div class="d-flex flex-column mr-5">
         <!-- Category -->
         <div class="accordion ms-4" id="accordionPanelsStayOpenExample">
             <div class="accordion-item">
@@ -156,7 +164,7 @@
 
     <div class="itemlist d-flex flex-row flex-sm-nowrap align-self-start">
         {% for item in item_list %}
-        <a class="" href="{% url 'ItemDetailPage' item.id %}" style="text-decoration-line: none;">
+        <a class="itembox" href="{% url 'ItemDetailPage' item.id %}" style="text-decoration-line: none;">
             <div class="card border-light ms-3 pe-auto" style="max-width: 18rem;">
                 <div class="card-body text-black">
                     <h5 class="card-title">Picture of product</h5>

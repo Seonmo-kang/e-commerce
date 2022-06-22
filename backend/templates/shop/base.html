@@ -209,7 +209,7 @@
     </header>
 
     <!-- Body section start -->
-
+    <main class="main-section">
     <!-- login.html -->
     {% block login %}{% endblock %}
     <!-- end login.html-->
@@ -229,15 +229,15 @@
     <!-- myPage.html-->
         {% block myPage %}{% endblock %}
     <!-- End myPage.html-->
-
+    <div class="login-section">
     <!-- socialaccount/login.html-->
         {% block socialLogin %}{% endblock %}
     <!-- End socialaccount/login.html-->
-
+    
     <!-- socialaccount/signup.html -->
         {% block socialSignup %}{% endblock %}
     <!-- End socialaccount/signup.html -->
-
+    </div>
     <!-- cart.html -->
         {% block cart %}{% endblock %}
     <!-- End cart.html -->
@@ -245,6 +245,7 @@
     <!-- accountLogin account\base.html-->
         {% block accountLogin %}{% endblock %}
     <!-- End account\base.html-->
+    </main>
     <footer>
         <div class="d-flex flex-column border bg-light mt-5">
             <div class="flex-row justify-content-start p-2 border">
