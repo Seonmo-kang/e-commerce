@@ -2,30 +2,31 @@
 
 {% block itemDetail %}
         {% if details %}
-        <div class="productDetail container-fluid" style="width: 1440px;">
+        <div class="productDetail container-fluid">
             <div class="m-3">
-            <h3 class="bold">Prodect Detail</h3>
+            <h3 class="bold">Product Detail</h3>
             </div>
             <!-- Product section-->
                 <!-- px-4 px-lg-5 my-5 -->
-                <div class="container-fluid px-4 my-5">
-                    <div class="row gx-4 gx-lg-5">
-                        <div class="col-md-4 col-sm-12">
-                            <img src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
-                        </div>
-                        <div class="col-md-4 col-sm-12">
-                            <img src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
-                        </div>
-                        <div class="col-md-4 col-sm-12">
+                <div class="container-fluid my-5">
+                    <div class="product-info-box row">
+                            <div class="col-xl-4 col-md-6 col-sm-12 my-md-0 my-2">
+                                <img class="image" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
+                            </div>
+                            <div class="col-xl-4 col-md-6 col-sm-12 my-md-0 my-2">
+                                <img class="image" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
+                            </div>
+                        <div class="col-xl-4 col-sm-12 mx-lg-0 mx-auto">
                             <div class="small mb-1">model : {{details.model}}</div>
                             <h3 class="display-5 fw-bolder">name : {{details.name}}</h3>
                             <div class="fs-5 mb-5">
                                 <span>${{details.sell_price}}</span>
                             </div>
                             <p class="lead">description: {{details.description}}</p>
-                            <div class="d-flex">
-                                <p class="m-0 align-self-center">Qty </p><input class="form-control text-center me-3" id="inputQuantity" type="num" value="1" style="max-width: 3rem" />
-                                <button class="addCart btn btn-outline-dark flex-shrink-0" type="button" id="addCart" value="{{details.id}}" data-item="{{details.id}}">
+                            <div class="row d-flex justify-content-start">
+                                <p class="col-2 align-self-center">Qty </p>
+                                <input class="col-5 form-control text-center me-3" id="inputQuantity" type="number" min="1" value="1" style="max-width: 3rem" />
+                                <button class="col-5 addCart btn btn-outline-dark flex-shrink-0" type="button" id="addCart" value="{{details.id}}" data-item="{{details.id}}">
                                     <i class="bi-cart-fill me-1"></i>
                                     Add to cart
                                 </button>
