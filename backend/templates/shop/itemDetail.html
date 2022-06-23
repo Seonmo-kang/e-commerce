@@ -24,11 +24,17 @@
                             </div>
                             <p class="lead">description: {{details.description}}</p>
                             <div class="row d-flex justify-content-start">
-                                <p class="col-2 align-self-center">Qty </p>
-                                <input class="col-5 form-control text-center me-3" id="inputQuantity" type="number" min="1" value="1" style="max-width: 3rem" />
-                                <button class="col-5 addCart btn btn-outline-dark flex-shrink-0" type="button" id="addCart" value="{{details.id}}" data-item="{{details.id}}">
+                                <p class="col-md-2 col-2 m-0 align-self-center">Qty </p>
+                                <div class="col-md-3 col-7 me-3 align-self-center">
+                                    <input class=" form-control text-center" id="inputQuantity" type="number" min="1" value="1" />
+                                </div>
+                                <button class="col-md-3 col-sm-12 my-md-0 my-1 addCart btn btn-outline-dark flex-shrink-0" type="button" id="addCart" value="{{details.id}}" data-item="{{details.id}}">
                                     <i class="bi-cart-fill me-1"></i>
-                                    Add to cart
+                                    Add Cart
+                                </button>
+                                <button class="col-md-2 col-sm-12 mx-md-2 my-md-0 my-1 addWish btn btn-outline-dark" type="button" id="addWish" value="{{details.id}}">
+                                    <i class="bi bi-heart"></i>
+                                    Add WishList
                                 </button>
                             </div>
                         </div>
