@@ -35,131 +35,148 @@
 {% endblock %}
 
 {% block itemList %}
-<div class="d-flex flex-row justify-content-start flex-fill mx-auto">
-    <button class="trend btn btn-light m-1">
-        #실시간 예약상품
-    </button>
-    <button class="trend btn btn-light m-1">
-        #인기 프라모델 상품
-    </button>
-    <button class="trend btn btn-light m-1">
-        #인기 피규어
-    </button>
-    <button class="trend btn btn-light m-1">
-        #인기 토이
-    </button>
-</div>
+<div class="itemList d-flex flex-column align-items-center">
+    <div class="d-flex flex-row justify-content-center flex-fill mx-auto">
+        <button class="trend btn btn-light m-1">
+            #실시간 예약상품
+        </button>
+        <button class="trend btn btn-light m-1">
+            #인기 프라모델 상품
+        </button>
+        <button class="trend btn btn-light m-1">
+            #인기 피규어
+        </button>
+        <button class="trend btn btn-light m-1">
+            #인기 토이
+        </button>
+    </div>
 
 <!-- filtering & item list-->
-<div class="d-flex flex-row mx-auto">
-
-    <div class="category d-flex flex-column">
-        <!-- Category -->
-        <div class="accordion ms-4" id="accordionPanelsStayOpenExample">
-            <div class="accordion-item">
-                <h2 class="accordion-header" id="panelsStayOpen-headingOne">
-                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true"
-                        aria-controls="panelsStayOpen-collapseOne">
-                        Category
-                    </button>
-                </h2>
-                <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show"
-                    aria-labelledby="panelsStayOpen-headingOne">
-                    <div class="accordion-body p-0">
-                        <ul class="list-group">
-                            {% for c in category %}
-                            <li class="list-group-item">
-                                <input class="form-check-input" id="filtering" type="checkbox" data-filter="category"
-                                    value="{{c.name}}" aria-label="..."/>
-                                {{ c.name }}
-                            </li>
-                            {% endfor %}
-                        </ul>
+    <div class="item-container row row-cols-2 w-100">
+        <div class="category col-lg-2 col-md-12 col-12 mr-auto">
+            <!-- Category -->
+            <div class="accordion" id="accordionPanelsStayOpenExample">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true"
+                            aria-controls="panelsStayOpen-collapseOne">
+                            Category
+                        </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show"
+                        aria-labelledby="panelsStayOpen-headingOne">
+                        <div class="accordion-body p-0">
+                            <ul class="list-group">
+                                {% for c in category %}
+                                <li class="list-group-item">
+                                    <input class="form-check-input" id="filtering" type="checkbox" data-filter="category"
+                                        value="{{c.name}}" aria-label="..."/>
+                                    {{ c.name }}
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <!-- SubCategory -->
-            <div class="accordion-item">
-                <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false"
-                        aria-controls="panelsStayOpen-collapseTwo">
-                        Subcategory
-                    </button>
-                </h2>
-                <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse"
-                    aria-labelledby="panelsStayOpen-headingTwo">
-                    <div class="accordion-body p-0">
-                        <ul class="list-group">
-                            {% for sub in subcategory %}
-                            <li class="list-group-item">
-                                <input class="form-check-input" id="filtering" type="checkbox" data-filter="subcategory"
-                                    value="{{sub.name}}" aria-label="..."/>
-                                {{ sub.name }}
-                            </li>
-                            {% endfor %}
-                        </ul>
+                <!-- SubCategory -->
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false"
+                            aria-controls="panelsStayOpen-collapseTwo">
+                            Subcategory
+                        </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse"
+                        aria-labelledby="panelsStayOpen-headingTwo">
+                        <div class="accordion-body p-0">
+                            <ul class="list-group">
+                                {% for sub in subcategory %}
+                                <li class="list-group-item">
+                                    <input class="form-check-input" id="filtering" type="checkbox" data-filter="subcategory"
+                                        value="{{sub.name}}" aria-label="..."/>
+                                    {{ sub.name }}
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <!-- Brand -->
-            <div class="accordion-item">
-                <h2 class="accordion-header" id="panelsStayOpen-headingThree">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false"
-                        aria-controls="panelsStayOpen-collapseThree">
-                        Brand
-                    </button>
-                </h2>
-                <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse"
-                    aria-labelledby="panelsStayOpen-headingThree">
-                    <div class="accordion-body p-0">
-                        <ul class="list-group">
-                            {% for b in brand %}
-                            <li class="list-group-item">
-                                <input class="form-check-input" id="filtering" type="checkbox" data-filter="brand"
-                                    value="{{b.name}}" aria-label="..."/>
-                                {{ b.name }}
-                            </li>
-                            {% endfor %}
-                        </ul>
+                <!-- Brand -->
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="panelsStayOpen-headingThree">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false"
+                            aria-controls="panelsStayOpen-collapseThree">
+                            Brand
+                        </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse"
+                        aria-labelledby="panelsStayOpen-headingThree">
+                        <div class="accordion-body p-0">
+                            <ul class="list-group">
+                                {% for b in brand %}
+                                <li class="list-group-item">
+                                    <input class="form-check-input" id="filtering" type="checkbox" data-filter="brand"
+                                        value="{{b.name}}" aria-label="..."/>
+                                    {{ b.name }}
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <!-- end filtering-->
-    <!-- item list  -->
-    {% if item_list %}
-
-    <div class="itemlist d-flex flex-row">
-        {% for item in item_list %}
-        <a class="itembox" href="{% url 'ItemDetailPage' item.id %}" style="text-decoration-line: none;">
-            <div class="card border-light" style="max-width: 18rem;">
-                <div class="card-body text-black">
-                    <h5 class="card-title">Picture of product</h5>
-                    <p class="card-text"></p>
-                </div>
-                <div class="card-footer bg-transparent text-black">
-                    <div class="item_name">
-                        Item name : {{item.name}}
+        <!-- end filtering-->
+        <!-- item list  -->
+        {% if item_list %}
+            {% if user.is_authenticated %}
+                {% csrf_token %}
+            {% endif %}
+        <div class="itemlist row row-cols-1 row-cols-md-2 row-cols-lg-3 col-12 col-lg-10 col-md-12 my-5 p-2">
+            {% for item in item_list %}
+            <div class="itembox col my-2 p-3">
+                <a href="{% url 'ItemDetailPage' item.id %}" style="text-decoration-line: none;">
+                    <div class="card border-light">
+                        <div class="card-body text-black">
+                            <h5 class="card-title">Picture of product</h5>
+                            <p class="card-text"></p>
+                        </div>
+                        <div class="card-footer bg-transparent text-black">
+                            <div class="item_name">
+                                Item name : {{item.name}}
+                            </div>
+                            <div class="item_price">
+                                Item sell_price : {{item.sell_price}}
+                            </div>
+                            <p class="item_model">
+                                <p>Item code : {{item.code}}</p>
+                                <p>Item model : {{item.model}}</p>
+                            </div>
                     </div>
-                    <div class="item_price">
-                        Item sell_price : {{item.sell_price}}
-                    </div>
-                    <div class="item_model">
-                        Item code : {{item.code}}
-                        Item model : {{item.model}}
-                    </div>
+                </a>
+                <div class="row">
+                    <button class="col-sm-6 col-12 addWish btn btn-outline-dark" type="button" id="addWish" value="{{item.id}}">
+                        {% if user.is_authenticated %}
+                            {% if wish_list is not none and item in wish_list %}
+                                <i id="wish-heart" class="bi bi-heart-fill"></i> item in wish list
+                            {% else %}
+                                <i id="wish-heart" class="bi bi-heart"></i> wish list is not none but item is not in wish list
+                            {% endif %}
+                        {% else %}
+                            <i id="wish-heart" class="bi bi-heart"></i> unlogined
+                        {% endif %}
+                    </button>
                 </div>
             </div>
-        </a>
-        {% endfor %}
+            {% endfor %}
+        </div>    
     </div>
     {% else %}
-    <p> There are no item in the item list</p>
+        <p> There are no item in the item list</p>
     {% endif %}
-    <!-- end item list  -->
 </div>
+<!-- end item list  -->
 {% endblock %}

@@ -131,7 +131,7 @@
             </div>
                 {% if user.is_authenticated %}
                 <div class="mbd-highlight align-self-center border-1">
-                    <p class="m-0">안녕하세요! {{ user }}님</p>
+                    <p class="m-0">Hi! {{ user }}</p>
                 </div>
                 <div class="mbd-highlight">
                     <a href="{% url 'account_logout' %}" style="text-decoration-line: none;">
@@ -212,6 +212,15 @@
 
     <!-- Body section start -->
     <main class="main-section">
+
+    <!-- Pop up section -->
+    <div class="pop-up-section">
+        <!-- <div class="pop-up-box">
+            Hello world
+        </div> -->
+    </div>
+    <!-- end Pop up section -->
+
     <!-- login.html -->
     {% block login %}{% endblock %}
     <!-- end login.html-->
@@ -219,9 +228,8 @@
     <!-- shop.html -->
     {% block carousel %}{% endblock %}
 
-    <div class="itemList d-flex flex-column">
-        {% block itemList %}{% endblock %}
-    </div>
+    
+    {% block itemList %}{% endblock %}
     <!-- end shop.html -->
 
     <!-- itemDetail.html-->
@@ -299,6 +307,7 @@
     <!-- static js -->
     <script type="text/javascript" src="{% static 'javascript/filter.js' %}"></script>
     <script type="text/javascript" src="{% static 'javascript/cart.js' %}"></script>
+    <script type="text/javascript" src="{% static 'javascript/wish.js' %}"></script>    
     <!-- Bootstrap JS CDN-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
