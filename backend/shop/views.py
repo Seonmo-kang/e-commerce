@@ -3,10 +3,9 @@ from django.shortcuts import render
 from django.template.loader import render_to_string
 from django.views import generic 
 
-from .models import Brand, Carasel, Category, Item, SubCategory
+from .models import Brand, Carasel, Category, Item, SubCategory,Wish
 from order.models import Order, OrderItem
 from django.conf import settings
-
 
 
 
@@ -32,7 +31,10 @@ class ShopView(generic.ListView):
         subcategory = SubCategory.objects.all()
         brand = Brand.objects.all()
         images = Carasel.objects.all()
-
+        if self.request.user.is_authenticated:
+            wish = Wish.objects.get_wishList_or_none(user=self.request.user)
+            context['wish_list']=wish
+        context['wish_list']=None
         context['category'] =category
         context['subcategory'] = subcategory
         context['brand'] = brand
@@ -97,4 +99,10 @@ class ItemDetailView(generic.DetailView):
     
     def get_object(self,queryset=None):
         return Item.objects.detail(id=self.kwargs['pk'])
-
+    
+    def get_context_data(self, **kwargs):
+        context = super(ItemDetailView,self).get_context_data(**kwargs)
+        if self.request.user.is_authenticated:
+            item = Item.objects.get(id=self.kwargs['pk'])
+            context['wish'] = Wish.objects.get_wishItem_or_none(user=self.request.user,item=item)
+        return context

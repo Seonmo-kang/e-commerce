@@ -2,6 +2,9 @@
 
 {% block itemDetail %}
         {% if details %}
+            {% if user.is_authenticated %}
+                {% csrf_token %}
+            {% endif %}
         <div class="productDetail container-fluid">
             <div class="m-3">
             <h3 class="bold">Product Detail</h3>
@@ -18,7 +21,7 @@
                             </div>
                         <div class="col-xl-4 col-sm-12 mx-lg-0 mx-auto">
                             <div class="small mb-1">model : {{details.model}}</div>
-                            <h3 class="display-5 fw-bolder">name : {{details.name}}</h3>
+                            <h3 class="display-5 fw-b older">name : {{details.name}}</h3>
                             <div class="fs-5 mb-5">
                                 <span>${{details.sell_price}}</span>
                             </div>
@@ -32,9 +35,12 @@
                                     <i class="bi-cart-fill me-1"></i>
                                     Add Cart
                                 </button>
-                                <button class="col-md-2 col-sm-12 mx-md-2 my-md-0 my-1 addWish btn btn-outline-dark" type="button" id="addWish" value="{{details.id}}">
-                                    <i class="bi bi-heart"></i>
-                                    Add WishList
+                                <button class="col-md-2 col-sm-12 mx-md-2 my-md-0 my-1 addWish btn btn-outline-danger" type="button" id="addWish" data-action="{% if wish is not none %}remove{% else %}add{% endif %}" data-item="{{details.id}}">
+                                {% if wish is not none %}
+                                    <i id="wish-heart" class="bi bi-heart-fill"></i>
+                                {% else %}
+                                    <i id="wish-heart" class="bi bi-heart"></i>
+                                {% endif %}
                                 </button>
                             </div>
                         </div>

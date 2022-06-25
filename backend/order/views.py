@@ -1,11 +1,12 @@
 from urllib import response
 from django.http import JsonResponse
+import json
 from typing import OrderedDict
 from django.shortcuts import render
 from django.views import generic
 
 from .models import Order,OrderItem
-from shop.models import Item
+from shop.models import Item,Wish
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -67,4 +68,28 @@ def remove_item(request):
     item_count = Order.objects.countOrderItem(user=request.user)
     res = "order Item has been deleted."
     return JsonResponse( {'data': res , 'carted_item': item_count} )
-    
+
+@login_required
+def manage_wish(request):
+    print(request.POST)
+    #get item_id from request
+    item_id = request.POST["item_id"]
+    # get item object from Item model
+    item = Item.objects.get(id=item_id)
+    is_in_wish_list = Wish.objects.isInWishList(user=request.user,item=item)
+    result_text ,action = '',''
+    if is_in_wish_list: # Item is in this user wish list : remove
+        wished_item = Wish.objects.get(user=request.user,item=item)
+        wished_item.delete()
+        result_text = 'Item was deleted'
+        action ="remove"
+    else: # Item is not in this user wish list : add
+        wish_item = Wish(user=request.user,item=item)
+        wish_item.save()
+        result_text = 'Item was added'
+        action ="add"
+    return JsonResponse(data={'result' : result_text, 'action': action},safe=False)
+
+@login_required
+def remove_wish(request):
+    return JsonResponse({'Test': 'test'})
