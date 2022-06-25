@@ -7,6 +7,7 @@ from django.forms import SlugField
 from bases.models import TimeStampBase
 
 from django.template.defaultfilters import slugify
+from django.core.exceptions import ObjectDoesNotExist
 
 # Item Category
 class Category(TimeStampBase):
@@ -157,5 +158,30 @@ class Review(TimeStampBase):
     subject = models.CharField("Review Subject",max_length=200,null=False,blank=False)
     context = models.TextField("Review Context",null=False,blank=False)
 
+class WishManager(models.Manager):
+    # user has wish object?
+    def hasWishList(self,user,**kwargs):
+        return self.filter(user=user).exists()
+    # user has this item in wishlist?
+    def isInWishList(self,user,item,**kwargs):
+        if self.hasWishList(user=user):
+            return self.filter(user=user,item=item).exists()
+        return False
+    # Get or None wishList
+    def get_wishItem_or_none(self,user,item,**kwargs):
+        if self.isInWishList(user=user,item=item):
+            return self.get(user=user,item=item)
+        return None  
+    # Get user's wishList querySet or None
+    def get_wishList_or_none(self,user,**kwargs):
+        if self.hasWishList(user=user):
+            return self.filter(user=user)
+        return None
+class Wish(TimeStampBase):
+    id = models.BigAutoField('Wish id', primary_key=True)
+    item = models.ForeignKey(Item,on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,related_name='wish')
+    objects= WishManager()
 
-
+    def __str__(self):
+        return str(self.user)+" "+str(self.item)

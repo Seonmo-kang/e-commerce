@@ -1,7 +1,7 @@
 from csv import list_dialects
 from re import search
 from django.contrib import admin
-from .models import Item,Qty,Category,SubCategory,Brand,Review, Carasel
+from .models import Item,Qty,Category,SubCategory,Brand,Review, Carasel, Wish
 class ItemAdmin(admin.ModelAdmin):
     list_display = ['id','name','description','sell_price',
     'unit_price','code','model','color','isAvailable']
@@ -30,6 +30,9 @@ class ReviewAdmin(admin.ModelAdmin):
 class CaraselAdmin(admin.ModelAdmin):
     list_display = ['alt','image']
 
+class WishAdmin(admin.ModelAdmin):
+    list_display= ['id','user','item']
+
 admin.site.register(Item,ItemAdmin)
 admin.site.register(Category,CategoryAdmin)
 admin.site.register(SubCategory,SubCategoryAdmin)
@@ -37,3 +40,4 @@ admin.site.register(Brand,BrandAdmin)
 admin.site.register(Qty,QtyAdmin)
 admin.site.register(Review,ReviewAdmin)
 admin.site.register(Carasel,CaraselAdmin)
+admin.site.register(Wish,WishAdmin)
