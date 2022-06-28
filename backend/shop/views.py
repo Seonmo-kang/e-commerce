@@ -2,7 +2,7 @@ from django.http import JsonResponse
 from django.shortcuts import render
 from django.template.loader import render_to_string
 from django.views import generic 
-
+from django.db.models import F,OuterRef, Exists
 from .models import Brand, Carasel, Category, Item, SubCategory,Wish
 from order.models import Order, OrderItem
 from django.conf import settings
@@ -46,7 +46,10 @@ class ShopView(generic.ListView):
     # get_query_set will be returned to context_object_name which is 'item_list'
     # Using GET parameter, create dynamic filters.
     def get_queryset(self):
-        queryset = Item.objects.isAvailable()
+        if self.request.user.is_authenticated:
+            queryset = Item.objects.isAvailable().annotate(wished_item=Exists(Wish.objects.filter(user=self.request.user,item=OuterRef('pk'))))
+        else:
+            queryset = Item.objects.isAvailable()
         return queryset
         #filter
         # filters={}

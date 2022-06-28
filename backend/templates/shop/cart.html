@@ -2,11 +2,12 @@
 {% load static %}
 
 {% block cart %}
-    <div class="container">
-        <p>Cart!</p>
+<div class="cart-section my-2 px-2 ">
+    <h2>Cart : </h2>
+    <div class="container d-flex flex-column justify-content-center py-3">
     {% if item_list %}
         {%for item in item_list %}
-            <div class="item my-2 col-6 border-bottom align-items-center">
+            <div class="item my-2 border-bottom align-items-center">
                 <button type="button" class="remove_item btn-close float-end" id="remove_item-{{forloop.counter}}" data-item="{{item.item.id}}" aria-label="Close"></button>
                 <p> item name : {{item.item}} </p>
                 <p> item quantity : {{item.quantity}} </p>
@@ -18,4 +19,5 @@
         <p> There are no item in the cart!</p>
     {% endif %}
     </div>
+</div>
 {% endblock %}

@@ -52,6 +52,7 @@
     </div>
 
 <!-- filtering & item list-->
+    {{ wish_list |json_script:"wish_list" }}
     <div class="item-container row row-cols-2 w-100">
         <div class="category col-lg-2 col-md-12 col-12 mr-auto">
             <!-- Category -->
@@ -158,16 +159,23 @@
                     </div>
                 </a>
                 <div class="row">
-                    <button class="col-sm-6 col-12 addWish btn btn-outline-dark" type="button" id="addWish" value="{{item.id}}">
-                        {% if user.is_authenticated %}
-                            {% if wish_list is not none and item in wish_list %}
-                                <i id="wish-heart" class="bi bi-heart-fill"></i> item in wish list
-                            {% else %}
-                                <i id="wish-heart" class="bi bi-heart"></i> wish list is not none but item is not in wish list
-                            {% endif %}
+                    {% if user.is_authenticated %}
+                    <button class="col-sm-6 col-12 addWish btn btn-outline-dark"
+                    type="button"
+                    id="addWish"
+                    data-item="{{item.id}}"
+                    data-action="{% if item.wished_item %}remove{% else %}add{% endif %}"
+                    >                        
+                        {% if item.wished_item %}
+                            <i id="wish-heart-{{item.id}}" class="bi bi-heart-fill"></i>
                         {% else %}
-                            <i id="wish-heart" class="bi bi-heart"></i> unlogined
+                            <i id="wish-heart-{{item.id}}" class="bi bi-heart"></i>
                         {% endif %}
+                    {% else %}
+                    <a  class="col-sm-6 col-12 wish-button btn btn-outline-dark"
+                        href="{% url 'account_login' %}"><i id="wish-heart-{{item.id}}" class="bi bi-heart"></i>
+                    </a>
+                    {% endif %}
                     </button>
                 </div>
             </div>
