@@ -1,7 +1,12 @@
 {% if item_list %}
-    {% for item in item_list %}
-    <a class="" href="{% url 'ItemDetailPage' item.id %}" style="text-decoration-line: none;">
-        <div class="card border-light ms-3 pe-auto" style="max-width: 18rem;">
+{% if user.is_authenticated %}
+    {% csrf_token %}
+{% endif %}
+<div class="itemlist row row-cols-1 row-cols-md-2 row-cols-lg-3 col-12 col-lg-10 col-md-12 my-5 p-2">
+{% for item in item_list %}
+<div class="itembox col my-2 p-3">
+    <a href="{% url 'ItemDetailPage' item.id %}" style="text-decoration-line: none;">
+        <div class="card border-light">
             <div class="card-body text-black">
                 <h5 class="card-title">Picture of product</h5>
                 <p class="card-text"></p>
@@ -13,14 +18,36 @@
                 <div class="item_price">
                     Item sell_price : {{item.sell_price}}
                 </div>
-                <div class="item_model">
-                    Item code : {{item.code}}
-                    Item model : {{item.model}}
+                <p class="item_model">
+                    <p>Item code : {{item.code}}</p>
+                    <p>Item model : {{item.model}}</p>
                 </div>
-            </div>
         </div>
     </a>
-    {% endfor %}
-    {% else %}
-    <p class="justify-content-center m-4"> There are no item in the item list</p>
+    <div class="row">
+        {% if user.is_authenticated %}
+        <button class="col-sm-6 col-12 addWish btn btn-outline-dark"
+        type="button"
+        id="addWish"
+        data-item="{{item.id}}"
+        data-action="{% if item.wished_item %}remove{% else %}add{% endif %}"
+        >                        
+            {% if item.wished_item %}
+                <i id="wish-heart-{{item.id}}" class="bi bi-heart-fill"></i>
+            {% else %}
+                <i id="wish-heart-{{item.id}}" class="bi bi-heart"></i>
+            {% endif %}
+        {% else %}
+        <a  class="col-sm-6 col-12 wish-button btn btn-outline-dark"
+            href="{% url 'account_login' %}"><i id="wish-heart-{{item.id}}" class="bi bi-heart"></i>
+        </a>
+        {% endif %}
+        </button>
+    </div>
+</div>
+{% endfor %}
+</div>    
+</div>
+{% else %}
+<p> There are no item in the item list</p>
 {% endif %}
