@@ -1,6 +1,7 @@
 {% extends "shop/base.html"%}
-  {% block accountLogin %}
 
+  {% block accountLogin %}
+  <div class="login-section">
   <!-- {% if messages %}
   <div>
     <strong>Messages:</strong>
@@ -12,22 +13,23 @@
   </div>
   {% endif %} -->
 
-  <div class="d-flex flex-column align-items-center">
-    <div class="d-flex flex-row align-self-center">
-      <strong class="align-self-center">Menu:</strong>
-      <ul class="my-0">
-        {% if user.is_authenticated %}
-        <li><a href="{% url 'account_email' %}">Change E-mail</a></li>
-        <li><a href="{% url 'account_logout' %}">Sign Out</a></li>
-        {% else %}
-        <li><a href="{% url 'account_login' %}">Sign In</a></li>
-        <li><a href="{% url 'account_signup' %}">Sign Up</a></li>
-        {% endif %}
-      </ul>
+    <div class="d-flex flex-column align-items-center">
+      <div class="d-flex flex-row align-self-center">
+        <strong class="align-self-center">Menu:</strong>
+        <ul class="my-0">
+          {% if user.is_authenticated %}
+          <li><a href="{% url 'account_email' %}">Change E-mail</a></li>
+          <li><a href="{% url 'account_logout' %}">Sign Out</a></li>
+          {% else %}
+          <li><a href="{% url 'account_login' %}">Sign In</a></li>
+          <li><a href="{% url 'account_signup' %}">Sign Up</a></li>
+          {% endif %}
+        </ul>
+      </div>
+      {% block content %} 
     </div>
-
-    {% block content %}
-    {% endblock %}
   </div>
+  {% endblock %}
+
   {% endblock %}
 
