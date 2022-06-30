@@ -1,0 +1,95 @@
+{% extends "account_custom/myPage.html" %}
+{% load static %}
+
+{% block profile %}
+    <div class="row align-items-center">
+        <div class="col">
+            <h1>Profile</h1>
+        </div>
+        <div class="col text-end">
+            <a class="btn btn-outline-primary" href="#">edit profile</a>
+        </div>
+    </div>
+    {% if profile %}
+    <div class="card mb-4">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-sm-3">
+              <p class="mb-0">first name</p>
+            </div>
+            <div class="col-sm-9">
+              <p class="text-muted mb-0">{{profile.first_name}} Test</p>
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-sm-3">
+              <p class="mb-0">Last name</p>
+            </div>
+            <div class="col-sm-9">
+              <p class="text-muted mb-0">{{profile.last_name}} Test</p>
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-sm-3">
+              <p class="mb-0">Address</p>
+            </div>
+            <div class="col-sm-9">
+              <p class="text-muted mb-0">{{profile.address}}</p>
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-sm-3">
+              <p class="mb-0">City</p>
+            </div>
+            <div class="col-sm-9">
+              <p class="text-muted mb-0">{{profile.city}}</p>
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-sm-3">
+              <p class="mb-0">state</p>
+            </div>
+            <div class="col-sm-9">
+              <p class="text-muted mb-0">{{profile.state}}</p>
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-sm-3">
+              <p class="mb-0">Zipcode</p>
+            </div>
+            <div class="col-sm-9">
+              <p class="text-muted mb-0">{{profile.zipcode}}</p>
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-sm-3">
+              <p class="mb-0">Credit Method</p>
+            </div>
+            <div class="col-sm-9">
+              <p class="text-muted mb-0">{{profile.credit_method}}</p>
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-sm-3">
+              <p class="mb-0">Credit Account</p>
+            </div>
+            <div class="col-sm-9">
+              <p class="text-muted mb-0">{{profile.credit_account}}</p>
+            </div>
+          </div>
+        </div>
+    </div>
+
+    {% else %}
+        <p>You don't have a saved profile</p>
+        <a>Edit profile</a>
+    {% endif %}
+
+{% endblock %}
