@@ -1,9 +1,10 @@
+
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.template.loader import render_to_string
 from django.views import generic 
-from django.db.models import F,OuterRef, Exists
-from .models import Brand, Carasel, Category, Item, SubCategory,Wish
+from django.db.models import F,OuterRef, Exists, Count, Avg, FloatField,Subquery
+from .models import Brand, Carasel, Category, Item, SubCategory,Wish, Review
 from order.models import Order, OrderItem
 from django.conf import settings
 
@@ -50,6 +51,12 @@ class ShopView(generic.ListView):
             queryset = Item.objects.isAvailable().annotate(wished_item=Exists(Wish.objects.filter(user=self.request.user,item=OuterRef('pk'))))
         else:
             queryset = Item.objects.isAvailable()
+        counts = Subquery(Review.objects.filter(item__id=OuterRef('id')).annotate(counts = Count('id')).values('counts'))
+        queryset = queryset.annotate(counts = counts)
+        avg = Subquery(Review.objects.filter(item__id=OuterRef('id')).values('item').annotate(avg = Avg('star')).values('avg'))
+        queryset = queryset.annotate(avg = avg)
+        # queryset.values('item').aggregate(review_avg=Avg(counts),output_field=FloatField())
+        print(queryset.query)
         return queryset
         #filter
         # filters={}

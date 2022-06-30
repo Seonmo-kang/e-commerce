@@ -35,7 +35,7 @@
 {% endblock %}
 
 {% block itemList %}
-<div class="itemList d-flex flex-column align-items-center">
+<div class="d-flex flex-column align-items-center">
     <div class="d-flex flex-row justify-content-center flex-fill mx-auto">
         <button class="trend btn btn-light m-1">
             #실시간 예약상품
@@ -51,7 +51,7 @@
         </button>
     </div>
 
-<!-- filtering & item list-->
+    <!-- filtering & item list-->
     <div class="item-container row row-cols-2 w-100">
         <div class="category col-lg-2 col-md-12 col-12 mr-auto">
             <!-- Category -->
@@ -151,13 +151,36 @@
                             <div class="item_price">
                                 Item sell_price : {{item.sell_price}}
                             </div>
-                            <p class="item_model">
+                            <div class="item_model">
                                 <p>Item code : {{item.code}}</p>
                                 <p>Item model : {{item.model}}</p>
                             </div>
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-2">Review :</div>
+                                    <div class="review col">                                    
+                                        <span class="review-star align-text-bottom" data-star="{{item.avg}}">
+                                        </span>
+                                        {% if item.counts is empty %}
+                                        (0)
+                                        {% else %}
+                                        ( {{item.counts}} )
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </a>
                 <div class="row">
+                    <button class="col-sm-5 mx-0 mx-sm-2 my-1 my-sm-0 col-12 p-1 addCart btn btn-outline-dark flex-shrink-0"
+                        type="button" id="addCart"
+                        value="{{details.id}}"
+                        data-item="{{details.id}}"
+                    >
+                        <i class="bi-cart-fill me-1"></i>
+                        Add Cart
+                    </button>
                     {% if user.is_authenticated %}
                     <button class="col-sm-2 mx-0 mx-sm-2 my-1 my-sm-0 col-12 addWish btn btn-outline-danger"
                     type="button"
@@ -170,7 +193,7 @@
                             <i id="wish-heart-{{item.id}}" class="bi bi-heart"></i>
                         {% endif %}
                     {% else %}
-                    <a  class="col-sm-6 col-12 wish-button btn btn-outline-dark"
+                    <a  class="col-sm-5 mx-0 mx-sm-2 my-1 my-sm-0 col-12 wish-button btn btn-outline-danger"
                         href="{% url 'account_login' %}"><i id="wish-heart-{{item.id}}" class="bi bi-heart"></i>
                     </a>
                     {% endif %}
