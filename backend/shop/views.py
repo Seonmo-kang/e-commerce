@@ -88,8 +88,9 @@ def filter_list(request):
     print(filters) # Value inspection
     
     filtered_queryset = queryset.filter(**filters).order_by('-created_at') # queryset
+    if request.user.is_authenticated:
+        filtered_queryset.annotate(wished_item=Exists(Wish.objects.filter(user=request.user,item=OuterRef('pk'))))
     print("filtered list :",filtered_queryset)
-
     filtered_list = render_to_string('shop/filtered_list.html',{'item_list': filtered_queryset})
     # print("r_string is ",filtered_list)
     return JsonResponse({'data':filtered_list})
