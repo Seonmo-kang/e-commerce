@@ -1,9 +1,9 @@
-{% extends "shop/base.html" %}
+{% extends "account_custom/myPage.html" %}
 {% load static %}
 
 {% block cart %}
 <div class="cart-section my-2 px-2 ">
-    <h2>Cart : </h2>
+    <h1>Cart </h1>
     <div class="container d-flex flex-column justify-content-center py-3">
     {% if item_list %}
         {%for item in item_list %}
