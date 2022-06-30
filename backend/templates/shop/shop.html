@@ -52,7 +52,6 @@
     </div>
 
 <!-- filtering & item list-->
-    {{ wish_list |json_script:"wish_list" }}
     <div class="item-container row row-cols-2 w-100">
         <div class="category col-lg-2 col-md-12 col-12 mr-auto">
             <!-- Category -->
@@ -160,11 +159,10 @@
                 </a>
                 <div class="row">
                     {% if user.is_authenticated %}
-                    <button class="col-sm-6 col-12 addWish btn btn-outline-dark"
+                    <button class="col-sm-2 mx-0 mx-sm-2 my-1 my-sm-0 col-12 addWish btn btn-outline-danger"
                     type="button"
-                    id="addWish"
+                    id="addWish-{{item.id}}"
                     data-item="{{item.id}}"
-                    data-action="{% if item.wished_item %}remove{% else %}add{% endif %}"
                     >                        
                         {% if item.wished_item %}
                             <i id="wish-heart-{{item.id}}" class="bi bi-heart-fill"></i>

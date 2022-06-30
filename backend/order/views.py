@@ -25,6 +25,18 @@ class CartView(LoginRequiredMixin,generic.ListView):
             order = Order.objects.getOrder(self.request.user)
             return OrderItem.objects.list_carted_items(order=order)
         return None
+
+class WishView(LoginRequiredMixin, generic.ListView):
+    login_url = 'accounts/login'
+    redirect_field_name = 'redirect_to'
+    model = Wish
+    template_name = "shop/wishlist.html"
+    context_object_name = 'wish_item_list'
+
+    def get_queryset(self):
+        return Wish.objects.get_wishList_or_none(user=self.request.user).annotate()
+            
+
 @login_required
 def add_cart(request):
     print("request.get : ",request.GET)
@@ -73,7 +85,10 @@ def remove_item(request):
 def manage_wish(request):
     print(request.POST)
     #get item_id from request
-    item_id = request.POST["item_id"]
+    if request.POST:
+        item_id = request.POST["item_id"]
+    elif request.DELETE:
+        item_id = request.DELETE["item_id"]
     # get item object from Item model
     item = Item.objects.get(id=item_id)
     is_in_wish_list = Wish.objects.isInWishList(user=request.user,item=item)
@@ -89,7 +104,3 @@ def manage_wish(request):
         result_text = 'Item was added'
         action ="add"
     return JsonResponse(data={'result' : result_text, 'action': action},safe=False)
-
-@login_required
-def remove_wish(request):
-    return JsonResponse({'Test': 'test'})

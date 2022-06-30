@@ -1,0 +1,27 @@
+{% extends "account_custom/myPage.html" %}
+{% load static %}
+
+{% block wishList %}
+<div class="wishlist-section my-2 px-2 ">
+    {% csrf_token %}
+    <h1>Wish list </h1>
+    <div class="container d-flex flex-column justify-content-center py-3">
+    {% if wish_item_list %}
+        {%for item in wish_item_list %}
+            <div class="item my-2 border-bottom align-items-center" id="item">
+                <button type="button" class="remove_wish_item btn-close float-end"
+                    id="remove_button-{{forloop.counter}}"
+                    data-item="{{item.item.id}}"
+                    data-action="remove"
+                    aria-label="Close"></button>
+                <a href="{% url 'ItemDetailPage' item.id %}">item name : {{item.item}} </a>
+            </div>
+        {% empty %}
+            <p>It's empty!</p>
+        {% endfor %}
+    {% else %}
+        <p> There are no item in the Wish List!</p>
+    {% endif %}
+    </div>
+</div>
+{% endblock %}
