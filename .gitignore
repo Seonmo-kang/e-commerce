@@ -10,8 +10,6 @@ assets/
 #migrations files
 migrations/
 
-# static files
-static/
 
 # cpython-38.pyc files
 *.cpython-38.pyc

@@ -1,0 +1,83 @@
+*, *::after, *::before{
+    font-family: 'Fredoka', sans-serif;
+    font-family: 'Roboto', sans-serif;
+    /* box-sizing: border-box helps make responsive layout*/
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+}
+.row {
+    --bs-gutter-x:0;
+}
+a{
+    text-decoration-line: none;
+}
+
+ul{
+    list-style-type: none;
+}
+
+/* carousel item size */
+#mainBanner{
+    margin: 50px auto;
+    width:100%;
+    max-width: 1800px;
+    object-fit: cover;
+    overflow: hidden;
+}
+.carousel-item img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.main-section{
+    margin: 0px auto;
+    max-width:1800px;
+    width:100%;
+}
+/* cart section */
+.cart-section{
+    
+}
+/* pop-up-section */
+.pop-up-section{
+    z-index: 2;
+    position: absolute;
+    transform:translate(-50%,0);
+    pointer-events: none;
+}
+.pop-up-box{
+    width:152px;
+    padding: 10px;
+    background-color:black;
+    color:white;
+    border-radius: 4px;
+    margin-bottom: 30px;
+    text-align: center;
+}
+.itemList .row{
+    --bs-gutter-x: 0;
+}
+
+/* shop itemlist itembox*/
+.itembox{
+
+}
+
+/* shop login */
+.login-section{
+    padding: 200px 0px;
+}
+
+/* block itemDetail */
+.productDetail{
+    width: 100vw;
+    max-width:1440px;
+}
+
+.product-info-box .image{
+    width: 100%;
+    object-fit:cover;
+    overflow: hidden;
+}
