@@ -78,7 +78,7 @@ def mypage(request):
     context={
         'profile':profile
     }
-    return render(request, 'account/myPage.html',context)
+    return render(request, 'account_custom/profile.html', context)
 
 class KakaoSignView(View):
     """

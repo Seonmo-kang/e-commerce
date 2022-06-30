@@ -2,14 +2,46 @@
 {% load static %}
 
 {% block myPage %}
-    {% if profile %}
-    <h1>My page</h1>
-    <!-- 사이드 메뉴 (프로필, 오더한 리스트, 리뷰, 고객 센터 ) -->
-    <!-- 프로필 -->
-    <p>first name : {{profile.first_name}}</p>
-    <p>last name : {{profile.last_name}}</p>
-    <!-- 고객 센터-->
-    <!-- 리뷰 -->
-    <!-- 오더한 리스트 -->
-    {% endif %}
+        <!-- 사이드 메뉴 (프로필, 오더한 리스트, 리뷰, 고객 센터 ) -->
+        <!-- 프로필 -->
+        <!-- 고객 센터-->
+        <!-- 리뷰 -->
+        <!-- 오더한 리스트 -->
+    <div class="container-fluid py-0 py-sm-5">
+        <div class="row my-2 my-md-5 px-sm-3">
+            <div class="col-sm-3 col-12 text-center border-end border-dark border-bottom-0">
+                <ul class="nav flex-column nav-tabs border-bottom-0">
+                    <li class="nav-item border-bottom">
+                        <a href="{% url 'profile' %}" class="nav-link text-dark">Profile</a>
+                    </li>
+                    <li class="nav-item border-bottom">
+                        <a href="{% url 'cart' %}" class="nav-link text-dark">Cart</a>
+                    </li>
+                    <li class="nav-item border-bottom">
+                        <a href="{% url 'profile' %}" class="nav-link text-dark">Ordered List</a>
+                    </li>
+                    <li class="nav-item border-bottom">
+                        <a href="{% url 'wish_list' %}" class="nav-link text-dark">Wish List</a>
+                    </li>
+                    <li class="nav-item border-bottom">
+                        <a href="{% url 'profile' %}" class="nav-link text-dark">Customer Service</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-sm col-12">
+                <!-- profile.html -->
+                {% block profile %}{% endblock %}
+                <!-- End profile.html -->
+                
+                <!-- cart.html -->
+                {% block cart %}{% endblock %}
+                <!-- End cart.html -->
+
+                <!-- wishList.html -->
+                {% block wishList %}{% endblock %}
+                <!-- end wishList.html -->
+            </div>
+        </div>
+    </div>
 {% endblock %}
+
