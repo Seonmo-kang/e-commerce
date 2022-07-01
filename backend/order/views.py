@@ -39,11 +39,11 @@ class WishView(LoginRequiredMixin, generic.ListView):
 
 @login_required
 def add_cart(request):
-    print("request.get : ",request.GET)
+    print("request.get : ",request.POST)
 
-    item_id = request.GET["item_id"]
+    item_id = request.POST["item_id"]
     item = Item.objects.get(id=item_id)
-    item_qty = request.GET["item_qty"]
+    item_qty = request.POST["item_qty"]
 
     # Order which has status =1 and User = request.user is not then create order entry
     if Order.objects.isCart(user=request.user):

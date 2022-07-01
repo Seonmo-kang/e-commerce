@@ -167,36 +167,36 @@
                                     {% endif %}
                                 </div>
                             </div>
-                            <div class="row">
-                                <button class="col-sm-7 mx-0 mx-sm-2 my-1 my-sm-0 col-12 p-1 addCart btn btn-outline-dark flex-shrink-0"
-                                    type="button" id="addCart"
-                                    value="{{details.id}}"
-                                    data-item="{{details.id}}"
-                                >
-                                    <i class="bi-cart-fill me-1"></i>
-                                    Add Cart
-                                </button>
-                                {% if user.is_authenticated %}
-                                <button class="col-sm-2 mx-0 mx-sm-2 my-1 my-sm-0 col-12 addWish btn btn-outline-danger"
-                                type="button"
-                                id="addWish-{{item.id}}"
-                                data-item="{{item.id}}"
-                                >                        
-                                    {% if item.wished_item %}
-                                        <i id="wish-heart-{{item.id}}" class="bi bi-heart-fill"></i>
-                                    {% else %}
-                                        <i id="wish-heart-{{item.id}}" class="bi bi-heart"></i>
-                                    {% endif %}
-                                {% else %}
-                                <a  class="col-sm-5 mx-0 mx-sm-2 my-1 my-sm-0 col-12 wish-button btn btn-outline-danger"
-                                    href="{% url 'account_login' %}"><i id="wish-heart-{{item.id}}" class="bi bi-heart"></i>
-                                </a>
-                                {% endif %}
-                                </button>
-                            </div>
                         </div>
                     </div>
                 </a>
+                <div class="row p-2">
+                    <button class="col-sm-7 mx-0 mx-sm-2 my-1 my-sm-0 col-12 p-1 addCart btn btn-outline-dark flex-shrink-0"
+                        type="button" id="addCart"
+                        value="{{item.id}}"
+                        data-item="{{item.id}}"
+                    >
+                        <i class="bi-cart-fill me-1"></i>
+                        Add Cart
+                    </button>
+                    {% if user.is_authenticated %}
+                    <button class="col-md-3 col-sm-2 mx-0 mx-sm-2 my-1 my-sm-0 col-12 addWish btn btn-outline-danger"
+                    type="button"
+                    id="addWish-{{item.id}}"
+                    data-item="{{item.id}}"
+                    >                        
+                        {% if item.wished_item %}
+                            <i id="wish-heart-{{item.id}}" class="bi bi-heart-fill"></i>
+                        {% else %}
+                            <i id="wish-heart-{{item.id}}" class="bi bi-heart"></i>
+                        {% endif %}
+                    {% else %}
+                    <a  class="col-sm-5 mx-0 mx-sm-2 my-1 my-sm-0 col-12 wish-button btn btn-outline-danger"
+                        href="{% url 'account_login' %}"><i id="wish-heart-{{item.id}}" class="bi bi-heart"></i>
+                    </a>
+                    {% endif %}
+                    </button>
+                </div>
             </div>
             {% endfor %}
         </div>    
