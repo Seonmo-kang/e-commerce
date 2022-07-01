@@ -63,15 +63,11 @@ const wait = (section,timeToDelay,number) =>
         },timeToDelay));
 
 $(document).ready(function(){
-    // var wishObj = {};
     $(".addWish").click( function(e){
         let csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
         let wishObj = {};
         const item_id = $(this).data('item');
-        // const action = $(this).data('action');
-        // wishObj['action'] = action;
         wishObj['item_id'] = item_id;
-        console.log(e.target);
         $.ajax({
             url:`${URL}`+"order/manageWish/",
             type : 'POST',
