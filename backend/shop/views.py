@@ -118,5 +118,5 @@ class ItemDetailView(generic.DetailView):
             context['wish'] = Wish.objects.get_wishItem_or_none(user=self.request.user,item=item)
         context['review_count'] = Review.objects.filter(item__id=self.kwargs['pk']).aggregate(count=Count('item'))
         context['review_avg'] = Review.objects.filter(item__id=self.kwargs['pk']).aggregate(avg = Avg('star'))
-        context['review_list'] = Review.objects.filter(item_id=self.kwargs['pk']).annotate(created_at=)
+        context['review_list'] = Review.objects.filter(item_id=self.kwargs['pk'])
         return context
