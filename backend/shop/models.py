@@ -157,6 +157,7 @@ class Review(TimeStampBase):
     star = models.IntegerField("Review Star",choices=STAR_CHOICE,default=1)
     subject = models.CharField("Review Subject",max_length=200,null=False,blank=False)
     context = models.TextField("Review Context",null=False,blank=False)
+    # Adding reivew photo?
 
 class WishManager(models.Manager):
     # user has wish object?

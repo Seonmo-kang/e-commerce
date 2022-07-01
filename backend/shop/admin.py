@@ -25,7 +25,7 @@ class QtyAdmin(admin.ModelAdmin):
     # ]
     search_fields = ('item',)
 class ReviewAdmin(admin.ModelAdmin):
-    list_display = ['id', 'item', 'user', 'star', 'subject', 'context']
+    list_display = ['id', 'item', 'user', 'star', 'subject', 'context','created_at']
 
 class CaraselAdmin(admin.ModelAdmin):
     list_display = ['alt','image']
