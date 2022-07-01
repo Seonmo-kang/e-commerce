@@ -7,6 +7,7 @@ window.onload = function(){
         let element = document.createElement("i");
         element.classList.add("bi");
         element.classList.add("bi-star-fill");
+        element.classList.add("text-warning");
         for(let i=0; i<Math.round(star_count); i++){
             // n the loop, in each iteration you need to create a new object,
             // else it will be just like replacing the same element so many times
