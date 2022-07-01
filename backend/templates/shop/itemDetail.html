@@ -62,17 +62,18 @@
                     <p class="p-2 align-self-center">made in: {{details.made_in}}</p>
                     <p class="p-2 align-self-center">weight: {{details.weight}}</p>
                 </div>
+
+                <div class="container px-md-4 px-0 border-bottom"></div>
                 <!-- Review list -->
-                <div class="review-list container">
+                <div class="review-list my-4 container">
                     <div class="row px-md-4 px-0">
                         <div class="mb-5">
                             <div class="fw-bolder"><h2>Reviews ({{review_count.count}})</h2></div>
                             <div><h3><span class="review-star" data-star="{{review_avg.avg}}"></span> {{review_avg.avg}}/5</h3></div>
                         </div>
                     {% if review_list %}
-                    
                         {% for review in review_list %}
-                        <div class="col d-flex flex-wrap flex-column my-2 shadow-4 rounded-lg justify-content-start border-bottom">
+                        <div class="col px-sm-2 px-5 d-flex flex-wrap flex-column my-4 shadow-4 rounded-lg justify-content-start">
                             <div class="review-user-box fw-semibold">{{review.user}}</div>
                             <div class="review-subject-box d-flex flex-row">
                                 <span class="review-star pe-2" data-star="{{review.star}}"></span>
@@ -82,7 +83,7 @@
                                 Reviewed on {{ review.created_at|date:"M d, Y" }}
                             </div>
                             
-                            <div class="review-context-box">{{review.context}}</div>
+                            <div class="review-context-box mb-2 border-bottom">{{review.context}}</div>
                         </div>
                         {% endfor %}
                     {% else %}
