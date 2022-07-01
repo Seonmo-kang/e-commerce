@@ -5,7 +5,7 @@
             {% if user.is_authenticated %}
                 {% csrf_token %}
             {% endif %}
-        <div class="productDetail container-fluid">
+        <div class="productDetail container-fluid p-0">
             <div class="m-3">
             <h3 class="bold">Product Detail</h3>
             </div>
@@ -13,15 +13,18 @@
                 <!-- px-4 px-lg-5 my-5 -->
                 <div class="container-fluid my-5">
                     <div class="product-info-box row">
-                            <div class="col-xl-4 col-md-6 col-sm-12 my-md-0 my-2">
+                            <div class="col-xl-4 col-md-6 col-sm-12 my-md-0 my-2 p-0 px-md-1">
                                 <img class="image" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
                             </div>
-                            <div class="col-xl-4 col-md-6 col-sm-12 my-md-0 my-2">
+                            <div class="col-xl-4 col-md-6 col-sm-12 my-md-0 my-2 p-0 px-md-1">
                                 <img class="image" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
                             </div>
                         <div class="col-xl-4 col-sm-12 mx-lg-0 mx-auto">
                             <div class="small mb-1">model : {{details.model}}</div>
-                            <h3 class="display-5 fw-b older">name : {{details.name}}</h3>
+                            <div class="d-flex justify-content-start flex-wrap">
+                                <h3 class="display-5 fw-bolder">name : {{details.name}}</h3>
+                                <p class="align-self-end"><span class="review-star" data-star="{{review_avg.avg}}"></span> ({{review_count.count}})</p>
+                            </div>
                             <div class="fs-5 mb-5">
                                 <span>${{details.sell_price}}</span>
                             </div>
@@ -58,7 +61,36 @@
                     <p class="p-2 align-self-center">brand: {{details.brand}}</p>
                     <p class="p-2 align-self-center">made in: {{details.made_in}}</p>
                     <p class="p-2 align-self-center">weight: {{details.weight}}</p>
-                </div>  
+                </div>
+                <!-- Review list -->
+                <div class="review-list container">
+                    <div class="row px-md-4 px-0">
+                        <div class="mb-5">
+                            <div class="fw-bolder"><h2>Reviews ({{review_count.count}})</h2></div>
+                            <div><h3><span class="review-star" data-star="{{review_avg.avg}}"></span> {{review_avg.avg}}/5</h3></div>
+                        </div>
+                    {% if review_list %}
+                    
+                        {% for review in review_list %}
+                        <div class="col d-flex flex-wrap flex-column my-2 shadow-4 rounded-lg justify-content-start border-bottom">
+                            <div class="review-user-box fw-semibold">{{review.user}}</div>
+                            <div class="review-subject-box d-flex flex-row">
+                                <span class="review-star pe-2" data-star="{{review.star}}"></span>
+                                <p class="fw-bold m-0">{{review.subject}}</p>
+                            </div>
+                            <div class="review-date text-secondary mb-2">
+                                Reviewed on {{ review.created_at|date:"M d, Y" }}
+                            </div>
+                            
+                            <div class="review-context-box">{{review.context}}</div>
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <p class="col">There is no review.</p>
+                    {% endif %}
+                    </div>
+                </div>
+                <!-- End Review list -->  
             </section>
 
         <!-- Related items section-->
