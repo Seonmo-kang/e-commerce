@@ -4,7 +4,7 @@ from django.shortcuts import render
 from django.template.loader import render_to_string
 from django.views import generic 
 from django.db.models import F,OuterRef, Exists, Count, Avg, FloatField,Subquery
-from .models import Brand, Carasel, Category, Item, SubCategory,Wish, Review
+from .models import Brand, Carasel, Category, Item, ItemImage, SubCategory,Wish, Review
 from order.models import Order, OrderItem
 from django.conf import settings
 
@@ -39,7 +39,7 @@ class ShopView(generic.ListView):
         context['category'] =category
         context['subcategory'] = subcategory
         context['brand'] = brand
-        context['images'] = images
+        context['carousel_images'] = images
         context['media_url'] = settings.MEDIA_URL
         context['text']= 'This is context[text] context value.'
         return context
@@ -55,8 +55,11 @@ class ShopView(generic.ListView):
         queryset = queryset.annotate(counts = counts)
         avg = Subquery(Review.objects.filter(item__id=OuterRef('id')).values('item').annotate(avg = Avg('star')).values('avg'))
         queryset = queryset.annotate(avg = avg)
+        main_image = Subquery(ItemImage.objects.filter(item__id=OuterRef('id')).values('image')[:1])
+        queryset = queryset.annotate(main_image=main_image)
         # queryset.values('item').aggregate(review_avg=Avg(counts),output_field=FloatField())
-        print(queryset.query)
+        print(queryset.query,"\n")
+        print(queryset[0].main_image)
         return queryset
         #filter
         # filters={}
@@ -95,8 +98,14 @@ def filter_list(request):
     print(filters) # Value inspection
     
     filtered_queryset = queryset.filter(**filters).order_by('-created_at') # queryset
+    main_image = Subquery(ItemImage.objects.filter(item__id=OuterRef('id')).values('image')[:1])
+    filtered_queryset = filtered_queryset.annotate(main_image=main_image)
     if request.user.is_authenticated:
-        filtered_queryset.annotate(wished_item=Exists(Wish.objects.filter(user=request.user,item=OuterRef('pk'))))
+        filtered_queryset = filtered_queryset.annotate(wished_item=Exists(Wish.objects.filter(user=request.user,item=OuterRef('pk'))))
+    counts = Subquery(Review.objects.filter(item__id=OuterRef('id')).annotate(counts = Count('id')).values('counts'))
+    filtered_queryset = filtered_queryset.annotate(counts = counts)
+    avg = Subquery(Review.objects.filter(item__id=OuterRef('id')).values('item').annotate(avg = Avg('star')).values('avg'))
+    filtered_queryset = filtered_queryset.annotate(avg = avg)
     print("filtered list :",filtered_queryset)
     filtered_list = render_to_string('shop/filtered_list.html',{'item_list': filtered_queryset})
     # print("r_string is ",filtered_list)
@@ -119,4 +128,5 @@ class ItemDetailView(generic.DetailView):
         context['review_count'] = Review.objects.filter(item__id=self.kwargs['pk']).aggregate(count=Count('item'))
         context['review_avg'] = Review.objects.filter(item__id=self.kwargs['pk']).aggregate(avg = Avg('star'))
         context['review_list'] = Review.objects.filter(item_id=self.kwargs['pk'])
+        context['images'] = ItemImage.objects.filter(item_id=self.kwargs['pk'])
         return context

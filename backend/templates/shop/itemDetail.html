@@ -13,12 +13,15 @@
                 <!-- px-4 px-lg-5 my-5 -->
                 <div class="container-fluid my-5">
                     <div class="product-info-box row">
+                        {% for image in images %}
                             <div class="col-xl-4 col-md-6 col-sm-12 my-md-0 my-2 p-0 px-md-1">
-                                <img class="image" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
+                                <img class="image" src="{{image.image.url}}" alt="{{image.alt}}" />
                             </div>
-                            <div class="col-xl-4 col-md-6 col-sm-12 my-md-0 my-2 p-0 px-md-1">
-                                <img class="image" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
-                            </div>
+                        <!-- <div class="col-xl-4 col-md-6 col-sm-12 my-md-0 my-2 p-0 px-md-1">
+                            <img class="image" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
+                        </div> -->
+                        {% endfor %}
+
                         <div class="col-xl-4 col-sm-12 mx-lg-0 mx-auto">
                             <div class="small mb-1">model : {{details.model}}</div>
                             <div class="d-flex justify-content-start flex-wrap">

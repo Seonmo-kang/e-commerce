@@ -8,14 +8,22 @@
     <div class="container d-flex flex-column justify-content-center py-3">
     {% if wish_item_list %}
         {%for item in wish_item_list %}
-            <div class="item my-2 border-bottom align-items-center" id="item">
+        <div class="item row my-2 border-bottom align-items-center">
+            <div class="col-md-3 col-12">
+                <img class="w-100" src="{{STATIC_PREFIX}}{{item.image}}" alt="item.description">
+            </div>
+            <div class="col-md-9">
                 <button type="button" class="remove_wish_item btn-close float-end"
                     id="remove_button-{{forloop.counter}}"
                     data-item="{{item.item.id}}"
                     data-action="remove"
                     aria-label="Close"></button>
-                <a href="{% url 'ItemDetailPage' item.id %}">item name : {{item.item}} </a>
+                <a href="{% url 'ItemDetailPage' item.item.id %}">
+                    <p>{{item.item}}</p>
+                    <p>${{item.item.sell_price}}</p>
+                    </a>
             </div>
+        </div>
         {% empty %}
             <p>It's empty!</p>
         {% endfor %}

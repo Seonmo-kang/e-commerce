@@ -8,14 +8,14 @@
 <!-- Carousel -->
 <div id="mainBanner" class="carousel slide" data-bs-ride="carousel">
     <div class="carousel-indicators">
-        {% for image in images %}
+        {% for image in carousel_images %}
         <button type="button" data-bs-target="#mainBanner" data-bs-slide-to="{{ forloop.counter0}}}"
             class="{% if forloop.first%}active{% endif %}" {% if forloop.first %} aria-current="true" {% endif %}
             aria-label="Slide {{ forloop.counter}}"></button>
         {% endfor %}
     </div>
     <div class="carousel-inner">
-        {% for image in images %}
+        {% for image in carousel_images %}
         <div class="carousel-item {% if forloop.counter0 == 0 %} active {% endif %}">
             <img src="{{image.image.url}}" alt="{{image.alt}}">
         </div>
@@ -38,16 +38,16 @@
 <div class="d-flex flex-column align-items-center">
     <div class="d-flex flex-row justify-content-center flex-fill mx-auto">
         <button class="trend btn btn-light m-1">
-            #실시간 예약상품
+            #Recommended
         </button>
         <button class="trend btn btn-light m-1">
-            #인기 프라모델 상품
+            #Today Most viewed
         </button>
         <button class="trend btn btn-light m-1">
-            #인기 피규어
+            #Popular clothes
         </button>
         <button class="trend btn btn-light m-1">
-            #인기 토이
+            #Popular shoes
         </button>
     </div>
 
@@ -130,6 +130,7 @@
             </div>
         </div>
         <!-- end filtering-->
+        {% get_media_prefix as STATIC_PREFIX%}
         <!-- item list  -->
         {% if item_list %}
             {% if user.is_authenticated %}
@@ -141,8 +142,7 @@
                 <a href="{% url 'ItemDetailPage' item.id %}" style="text-decoration-line: none;">
                     <div class="card border-light">
                         <div class="card-body text-black">
-                            <h5 class="card-title">Picture of product</h5>
-                            <p class="card-text"></p>
+                            <img class="w-100" src="{{ STATIC_PREFIX }}{{ item.main_image }}" alt="need to update alt">                        
                         </div>
                         <div class="card-footer bg-transparent text-black">
                             <div class="item_name">
@@ -171,9 +171,8 @@
                     </div>
                 </a>
                 <div class="row p-2">
-                    <button class="col-sm-7 mx-0 mx-sm-2 my-1 my-sm-0 col-12 p-1 addCart btn btn-outline-dark flex-shrink-0"
+                    <button class="col-md-5 col-sm-6 col-12 mx-0 mx-sm-2 my-1 my-sm-0 p-1 addCart btn btn-outline-dark flex-shrink-0"
                         type="button" id="addCart"
-                        value="{{item.id}}"
                         data-item="{{item.id}}"
                     >
                         <i class="bi-cart-fill me-1"></i>
@@ -191,7 +190,7 @@
                             <i id="wish-heart-{{item.id}}" class="bi bi-heart"></i>
                         {% endif %}
                     {% else %}
-                    <a  class="col-sm-5 mx-0 mx-sm-2 my-1 my-sm-0 col-12 wish-button btn btn-outline-danger"
+                    <a  class="col-md-3 col-sm-5 mx-0 mx-sm-2 my-1 my-sm-0 col-12 wish-button btn btn-outline-danger"
                         href="{% url 'account_login' %}"><i id="wish-heart-{{item.id}}" class="bi bi-heart"></i>
                     </a>
                     {% endif %}

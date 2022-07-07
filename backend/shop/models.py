@@ -125,6 +125,10 @@ class Item(TimeStampBase):
 
     def __str__(self):
         return self.name
+class ItemImage(TimeStampBase):
+    id = models.BigAutoField("Image ID",primary_key=True)
+    item = models.ForeignKey('item',on_delete=models.CASCADE)
+    image = models.ImageField(upload_to = 'item_images/') # /static/images/item_images
 
 # Item Stock model
 class Qty(TimeStampBase):
@@ -186,3 +190,4 @@ class Wish(TimeStampBase):
 
     def __str__(self):
         return str(self.user)+" "+str(self.item)
+
