@@ -1,5 +1,5 @@
 window.onload = function(){
-    $('span.review-star').each( function(index){
+    $('span.review-star').each( function(){
         var star_count = $(this).data('star');
         console.log($(this));
         if(isNaN(star_count)) star_count=0;
