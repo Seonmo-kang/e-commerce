@@ -39,7 +39,9 @@ class WishView(LoginRequiredMixin, generic.ListView):
     context_object_name = 'wish_item_list'
 
     def get_queryset(self):
-        return Wish.objects.get_wishList_or_none(user=self.request.user).annotate(image=image)
+        if Wish.objects.hasWishList(user=self.request.user):
+            return Wish.objects.get_wishList_or_none(user=self.request.user).annotate(image=image)
+        return Wish.objects.get_wishList_or_none(user=self.request.user)
             
 
 @login_required
