@@ -2,7 +2,7 @@
 from .models import Order,OrderItem
 
 def cart_processor(request):
-    if request.user.is_authenticated and Order.objects.exists():
+    if request.user.is_authenticated and Order.objects.filter(user=request.user).exists():
         user_order = Order.objects.getOrder(user=request.user)
         count_items = OrderItem.objects.count_carted_items(order=user_order)
     else:
