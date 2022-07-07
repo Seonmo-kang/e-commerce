@@ -4,12 +4,15 @@ import json
 from typing import OrderedDict
 from django.shortcuts import render
 from django.views import generic
-
+from django.db.models import Subquery,OuterRef
 from .models import Order,OrderItem
-from shop.models import Item,Wish
+from shop.models import Item,Wish,ItemImage
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+
+# image Subquery for shop, cart list, wish list
+image = Subquery(ItemImage.objects.filter(item__id=OuterRef('item')).values('image')[:1])
 
 class CartView(LoginRequiredMixin,generic.ListView):
     login_url = 'accounts/login/'
@@ -17,13 +20,15 @@ class CartView(LoginRequiredMixin,generic.ListView):
     model = OrderItem
     template_name = "shop/cart.html"
     context_object_name = 'item_list'
+    
     def get_context_data(self,**kwargs):
         context = super(CartView,self).get_context_data(**kwargs)
         return context
     def get_queryset(self):
         if Order.objects.isCart(user=self.request.user):
             order = Order.objects.getOrder(self.request.user)
-            return OrderItem.objects.list_carted_items(order=order)
+            ordered_items = OrderItem.objects.list_carted_items(order=order)
+            return ordered_items.annotate(image=image)
         return None
 
 class WishView(LoginRequiredMixin, generic.ListView):
@@ -34,7 +39,7 @@ class WishView(LoginRequiredMixin, generic.ListView):
     context_object_name = 'wish_item_list'
 
     def get_queryset(self):
-        return Wish.objects.get_wishList_or_none(user=self.request.user).annotate()
+        return Wish.objects.get_wishList_or_none(user=self.request.user).annotate(image=image)
             
 
 @login_required
