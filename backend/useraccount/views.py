@@ -107,7 +107,7 @@ class KakaoCallbackView(View):
         api_key = settings.KAKAO_KEY
         redirect_uri = KAKAO_CALLBACK_URI
         code = request.GET.get("code")
-        token_request = request.get(
+        token_request = request.post(
             f"https://kauth.kakao.com/oauth/token?grant_type=authorization_code&client_id={api_key}&redirect_uri={redirect_uri}&code={code}"
             ,header={'Accept':'application/json',
             'Content-type': 'application/x-www-form-urlencoded;charset=utf-8'})
