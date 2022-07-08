@@ -4,7 +4,7 @@ import json
 from typing import OrderedDict
 from django.shortcuts import render
 from django.views import generic
-from django.db.models import Subquery,OuterRef
+from django.db.models import Subquery,OuterRef,Sum
 from .models import Order,OrderItem
 from shop.models import Item,Wish,ItemImage
 
@@ -23,6 +23,8 @@ class CartView(LoginRequiredMixin,generic.ListView):
     
     def get_context_data(self,**kwargs):
         context = super(CartView,self).get_context_data(**kwargs)
+        order = Order.objects.getOrder(self.request.user)
+        context['total_price'] = OrderItem.objects.filter(order=order).values('item').aggregate(total_price=Sum('item__sell_price'))
         return context
     def get_queryset(self):
         if Order.objects.isCart(user=self.request.user):

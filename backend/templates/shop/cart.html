@@ -8,19 +8,46 @@
     {% if item_list %}
         {%for item in item_list %}
             <div class="item row py-2 border-bottom align-items-center">
-                <div class="col-md-3 col-12">
+                <div class="col-md-2 col-6">
                     <img class="w-100" src="{{STATIC_PREFIX}}{{item.image}}" alt="item.description">
                 </div>
-                <div class="col-md-9">
+                <div class="col-md-9 col-5">
                     <button type="button" class="remove_item btn-close float-end" id="remove_item-{{forloop.counter}}" data-item="{{item.item.id}}" aria-label="Close"></button>
-                    <p>{{item.item}} </p>
+                    <h6>{{item.item}} </h6>
                     <p>${{item.item.sell_price}}</p>
-                    quantity : <input class="text-secondary" value="{{item.quantity}}" type="number" min="1"></input>
+                    quantity : <input class=" w-100 text-secondary" value="{{item.quantity}}" type="number" min="1"></input>
                 </div>
             </div>
         {% empty %}
             <p>It's empty</p>
         {% endfor %}
+        <div class="col-12 order-md-last mt-sm-3 my-2">
+            <h4 class="d-flex justify-content-between align-items-center mb-3">
+                <span class="text-primary">Your cart</span>
+                <span class="badge bg-primary rounded-pill">{{carted_item}}</span>
+            </h4>
+            <ul class="list-group mb-3">
+            {% for item in item_list%}
+                <li class="list-group-item d-flex justify-content-between lh-sm">
+                <div>
+                    <h6 class="my-0">{{item.item}}</h6>
+                    <small class="text-muted">qty: {{item.quantity}}</small>
+                </div>
+                <span class="text-muted">${{item.item.sell_price}}</span>
+                </li>
+            {% endfor %}
+                <li class="list-group-item d-flex justify-content-between">
+                <span>Total (USD)</span>
+                <strong>${{total_price.total_price}}</strong>
+                </li>
+            </ul>
+            <form class="card p-2">
+                <div class="input-group">
+                <input type="text" class="form-control" placeholder="Promo code">
+                <button type="submit" class="btn btn-secondary">Redeem</button>
+                </div>
+            </form>
+        </div>
     {% else %}
         <p> There are no item in the cart!</p>
     {% endif %}
